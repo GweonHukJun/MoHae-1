@@ -16,7 +16,7 @@ class AgreeViewController: UIViewController, CLLocationManagerDelegate {
     var json : JSON?
     var placesClient : GMSPlacesClient!
     var zoomLevel : Float = 15.0
-    var locationManager:CLLocationManager!
+    var locationManager:CLLocationManager?
  
     let defaultLocation = CLLocation(latitude: -33.869405, longitude: 151.199)
     
@@ -34,31 +34,36 @@ class AgreeViewController: UIViewController, CLLocationManagerDelegate {
         return btn
     }()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func loadView() {
+        super.loadView()
         
         locationManager = CLLocationManager()
-        locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization() //권한 요청
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.startUpdatingLocation()
+        locationManager?.delegate = self
+        locationManager?.requestWhenInUseAuthorization() //권한 요청
+        locationManager?.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager?.startUpdatingLocation()
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
 
         placesClient = GMSPlacesClient.shared()
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem:.add,target: self, action:#selector(agree(sender:)))
-        callURL(url: url, search: search)
+        
         view.addSubview(button)
     }
     
     func callURL(url:String,search : String){
         
         let browKey = "AIzaSyDyStsE4WHE1YLRVx9uYRFLjqZ3tlEmdrE"
-        
-        let lat : String = String(locationManager.location!.coordinate.latitude)
-        let lng : String = String(locationManager.location!.coordinate.longitude)
-        
         //한글 검색어도 사용할 수 있도록 함
-        let addQuery = url + lat + "," + lng + radiusType + search +  key + browKey
+        
+        let lat : Double = (locationManager?.location?.coordinate.latitude)!
+        let lng : Double = (locationManager?.location?.coordinate.longitude)!
+        
+        let addQuery = url + "\(lat)" + "," + "\(lng)" + radiusType + search +  key + browKey
+        print(addQuery)
         
         let encoded = addQuery.addingPercentEncoding( withAllowedCharacters: NSCharacterSet.urlQueryAllowed)
         var request = URLRequest(url: URL(string: encoded!)!)
@@ -82,17 +87,18 @@ class AgreeViewController: UIViewController, CLLocationManagerDelegate {
         task.resume()
     }
     
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         //위치가 업데이트될때마다
         if let coor = manager.location?.coordinate{
             print("latitude" + String(coor.latitude) + "/ longitude" + String(coor.longitude))
+            callURL(url: self.url, search: self.search)
         }
     }
     
     @objc func agree(sender:UIButton)
     {
         let view = MapViewController()
-        view.defaultLocation = CLLocation(latitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!)
+        view.defaultLocation = CLLocation(latitude: (locationManager?.location?.coordinate.latitude)!, longitude: (locationManager?.location?.coordinate.longitude)!)
         view.json = self.json
         self.navigationController?.pushViewController(view, animated: true)
     }

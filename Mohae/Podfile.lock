@@ -1,6 +1,5 @@
 PODS:
   - Alamofire (4.8.2)
-  - Arale (0.0.4)
   - GoogleMaps (3.3.0):
     - GoogleMaps/Maps (= 3.3.0)
   - GoogleMaps/Base (3.3.0)
@@ -9,37 +8,38 @@ PODS:
   - GooglePlaces (3.3.0):
     - GoogleMaps/Base (= 3.3.0)
   - GSKStretchyHeaderView (1.0.4)
+  - MXParallaxHeader (1.0.0)
   - SnapKit (5.0.1)
   - SwiftyJSON (5.0.0)
 
 DEPENDENCIES:
   - Alamofire
-  - Arale
   - GoogleMaps
   - GooglePlaces
   - GSKStretchyHeaderView
+  - MXParallaxHeader
   - SnapKit (~> 5.0)
   - SwiftyJSON
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Alamofire
-    - Arale
     - GoogleMaps
     - GooglePlaces
     - GSKStretchyHeaderView
+    - MXParallaxHeader
     - SnapKit
     - SwiftyJSON
 
 SPEC CHECKSUMS:
   Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
-  Arale: fb05d3aa7d25994c81cdbd82b83339d38e37a2bc
   GoogleMaps: cfee83da305b9aaeccf92c24ac79df11c3003492
   GooglePlaces: 1e2a87bd9efee9623ee65d44ecc35ebfecd7b13c
   GSKStretchyHeaderView: 9743704c12bdc9cf7c7947bad3af8bf24f7061e3
+  MXParallaxHeader: a95e0af1f485b1b718a6939f583f0dbae6992c41
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
 
-PODFILE CHECKSUM: 524027928f6e5614d40f3aab84d2dfd7ec5c16e1
+PODFILE CHECKSUM: 2c9ae5a65ea6ecf13ef442df3bf80218f10819f7
 
 COCOAPODS: 1.7.5

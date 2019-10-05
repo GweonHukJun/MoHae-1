@@ -12,7 +12,7 @@ target 'Mohae' do
   pod 'SwiftyJSON'
   pod "GSKStretchyHeaderView"
   pod 'SnapKit', '~> 5.0'
-  pod 'Arale'
+  pod 'MXParallaxHeader'
   target 'MohaeTests' do
     inherit! :search_paths
     # Pods for testing

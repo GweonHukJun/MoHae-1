@@ -10,6 +10,7 @@
 		30E144A9D11387C00661A22A /* Pods_MohaeTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 054576D945ABD363AE3D6AE1 /* Pods_MohaeTests.framework */; };
 		97EC46BBCD4864325FB5EE9B /* Pods_MohaeUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8594E011B2022F042AA66F83 /* Pods_MohaeUITests.framework */; };
 		BC006E222339DF3000C5F825 /* PlacesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC006E212339DF3000C5F825 /* PlacesViewController.swift */; };
+		BC0F039823448F93000E7C6C /* FirstMapCellCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0F039723448F93000E7C6C /* FirstMapCellCollectionViewCell.swift */; };
 		BC1066CD233B464400C241C1 /* MapSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1066CC233B464400C241C1 /* MapSearch.swift */; };
 		BC1066CF233B4CEF00C241C1 /* MapSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1066CE233B4CEF00C241C1 /* MapSearchCell.swift */; };
 		BC1066D1233B794700C241C1 /* AgreeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1066D0233B794700C241C1 /* AgreeViewController.swift */; };
@@ -49,6 +50,7 @@
 		9A82B30AAD2731A695EC7C1F /* Pods-MohaeTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MohaeTests.debug.xcconfig"; path = "Target Support Files/Pods-MohaeTests/Pods-MohaeTests.debug.xcconfig"; sourceTree = "<group>"; };
 		A286331B3821405F3C0A18E1 /* Pods-MohaeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MohaeTests.release.xcconfig"; path = "Target Support Files/Pods-MohaeTests/Pods-MohaeTests.release.xcconfig"; sourceTree = "<group>"; };
 		BC006E212339DF3000C5F825 /* PlacesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesViewController.swift; sourceTree = "<group>"; };
+		BC0F039723448F93000E7C6C /* FirstMapCellCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstMapCellCollectionViewCell.swift; sourceTree = "<group>"; };
 		BC1066CC233B464400C241C1 /* MapSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSearch.swift; sourceTree = "<group>"; };
 		BC1066CE233B4CEF00C241C1 /* MapSearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSearchCell.swift; sourceTree = "<group>"; };
 		BC1066D0233B794700C241C1 /* AgreeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgreeViewController.swift; sourceTree = "<group>"; };
@@ -124,6 +126,7 @@
 			isa = PBXGroup;
 			children = (
 				BC1066CE233B4CEF00C241C1 /* MapSearchCell.swift */,
+				BC0F039723448F93000E7C6C /* FirstMapCellCollectionViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -444,6 +447,7 @@
 				BC8D4A7222F9635B007C7F67 /* MapViewController.swift in Sources */,
 				BC1066CF233B4CEF00C241C1 /* MapSearchCell.swift in Sources */,
 				BC1066CD233B464400C241C1 /* MapSearch.swift in Sources */,
+				BC0F039823448F93000E7C6C /* FirstMapCellCollectionViewCell.swift in Sources */,
 				BC8D4A7022F9635B007C7F67 /* AppDelegate.swift in Sources */,
 				BC1066D1233B794700C241C1 /* AgreeViewController.swift in Sources */,
 			);
