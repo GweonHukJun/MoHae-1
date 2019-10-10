@@ -126,8 +126,6 @@ class MapViewController: UIViewController {
         
         placesClient = GMSPlacesClient.shared() //구글 places APi 사용을 위해서 추가
         
-        //navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem:.add,target: self, action:#selector(menuBtn)) //네비게이션 추가
-        
         setup()
         downBar.addGestureRecognizer(panRecognizer)
     }
@@ -146,11 +144,11 @@ class MapViewController: UIViewController {
                 self.bottomConstraint.constant = 0
                 self.downBar.layer.cornerRadius = 20
                 UIView.animate(withDuration: 1){
-                    self.downBar.center = CGPoint(x: self.view.frame.midX, y: self.view.bounds.size.height*0.4-30)
+                    self.downBar.center = CGPoint(x: self.view.frame.midX, y: self.view.bounds.size.height*0.1-(self.navigationController?.navigationBar.frame.height)!/2 + 30*1.6)
                 }
                 UIView.animate(withDuration: 1){
                     self.collectionList.center = CGPoint(x:
-                        self.view.frame.midX, y: self.view.bounds.size.height*0.7 )
+                        self.view.frame.midX, y: self.view.bounds.size.height*0.6+(self.navigationController?.navigationBar.frame.height)!/2)
                 }
                 self.overLayout.alpha = 0.5
                 self.closeBar.transform = CGAffineTransform(scaleX: 1.6, y: 1.6).concatenating(CGAffineTransform(translationX: 0, y: 15))
@@ -163,7 +161,7 @@ class MapViewController: UIViewController {
                 }
                 UIView.animate(withDuration: 1){
                     self.collectionList.center = CGPoint(x:
-                        self.view.frame.midX, y: self.view.bounds.size.height + self.view.bounds.size.height*0.3 )
+                        self.view.frame.midX, y: self.view.bounds.size.height + self.view.bounds.size.height*0.6 )
                 }
                 self.overLayout.alpha = 0
                 self.closeBar.transform = .identity
@@ -373,7 +371,7 @@ extension MapViewController : UICollectionViewDataSource, UICollectionViewDelega
             make.leading.equalTo(self.view.snp.leading)
             make.trailing.equalTo(self.view.snp.trailing)
             make.top.equalTo(self.downBar.snp.bottom)
-            make.height.equalTo(self.view.bounds.size.height*0.6)
+            make.height.equalTo(self.view.bounds.size.height*0.9)
         }
     }
 }

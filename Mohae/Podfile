@@ -2,17 +2,14 @@
 # platform :ios, '9.0'
 
 target 'Mohae' do
-  # Comment the next line if you don't want to use dynamic frameworks
-  use_frameworks!
 
   # Pods for Mohae
   pod 'GoogleMaps'
   pod 'GooglePlaces'
   pod 'Alamofire'
   pod 'SwiftyJSON'
-  pod "GSKStretchyHeaderView"
   pod 'SnapKit', '~> 5.0'
-  pod 'MXParallaxHeader'
+
   target 'MohaeTests' do
     inherit! :search_paths
     # Pods for testing

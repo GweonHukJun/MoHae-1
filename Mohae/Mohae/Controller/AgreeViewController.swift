@@ -18,7 +18,7 @@ class AgreeViewController: UIViewController, CLLocationManagerDelegate {
     var zoomLevel : Float = 15.0
     var locationManager:CLLocationManager?
  
-    let defaultLocation = CLLocation(latitude: -33.869405, longitude: 151.199)
+    var defaultLocation = CLLocation(latitude: -33.869405, longitude: 151.199)
     
     var delegate : MapViewController?
     
@@ -37,16 +37,18 @@ class AgreeViewController: UIViewController, CLLocationManagerDelegate {
     override func loadView() {
         super.loadView()
         
-        locationManager = CLLocationManager()
-        locationManager?.delegate = self
-        locationManager?.requestWhenInUseAuthorization() //권한 요청
-        locationManager?.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager?.startUpdatingLocation()
+       
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        locationManager = CLLocationManager()
+               locationManager?.delegate = self
+               locationManager?.requestWhenInUseAuthorization() //권한 요청
+               locationManager?.desiredAccuracy = kCLLocationAccuracyBest
+               locationManager?.startUpdatingLocation()
+        
         placesClient = GMSPlacesClient.shared()
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem:.add,target: self, action:#selector(agree(sender:)))

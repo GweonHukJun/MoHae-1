@@ -1,4 +1,4 @@
-framework module Pods_Mohae {
+module Pods_Mohae {
   umbrella header "Pods-Mohae-umbrella.h"
 
   export *
