@@ -59,13 +59,6 @@ class MapViewController: UIViewController {
         return view
     }()
     
-   var updateBar: UIView = { // ---- 3
-        let view = UIView()
-        view.backgroundColor = UIColor.darkGray
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
     lazy var closeBar: UILabel = { //닫혀있을 때 나오는 글자
         let label = UILabel()
         label.text = "List Open"
@@ -114,9 +107,19 @@ class MapViewController: UIViewController {
         collectionList.delegate = self //collectionview를 사용하기 위해서 작성
         collectionList.dataSource = self
         
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeRightGesture(recognizer:)))
+        
+        swipeRight.direction = .right
+        
         setup()
-         updateBar.addSubview(collectionList)
         downBar.addGestureRecognizer(panRecognizer)
+        collectionList.gestureRecognizers = [swipeRight]
+    }
+    
+    @objc func handleSwipeRightGesture(recognizer: UISwipeGestureRecognizer) {
+       //이걸로 스크롤 하자
+            print("This swipe is right")
+        
     }
     
     override var prefersStatusBarHidden: Bool {
@@ -133,14 +136,14 @@ class MapViewController: UIViewController {
             case .open:
                 self.downBar.layer.cornerRadius = 20
                 self.downBar.center = CGPoint(x: self.view.frame.midX, y: (self.navigationController?.navigationBar.bounds.size.height)!*2+self.downBar.bounds.size.height/2)
-                self.updateBar.center = CGPoint(x:self.view.frame.midX, y: (self.navigationController?.navigationBar.bounds.size.height)!*2+self.downBar.bounds.size.height+self.updateBar.bounds.size.height/2)
+                self.collectionList.center = CGPoint(x:self.view.frame.midX, y: (self.navigationController?.navigationBar.bounds.size.height)!*2+self.downBar.bounds.size.height+self.collectionList.bounds.size.height/2)
                
                 self.closeBar.transform = CGAffineTransform(scaleX: 1.6, y: 1.6).concatenating(CGAffineTransform(translationX: 0, y: 15))
                 self.openBar.transform = .identity
             case .closed:
                 self.downBar.layer.cornerRadius = 0
                 self.downBar.center = CGPoint(x: self.view.frame.midX, y:self.view.frame.height-self.downBar.bounds.size.height/2)
-                self.updateBar.center = CGPoint(x:self.view.frame.midX, y: self.view.bounds.size.height*1.45 )
+                self.collectionList.center = CGPoint(x:self.view.frame.midX, y: self.view.bounds.size.height*1.45 )
                 self.closeBar.transform = .identity
                 self.openBar.transform = CGAffineTransform(scaleX: 0.65, y: 0.65).concatenating(CGAffineTransform(translationX: 0, y: -15))
             }
@@ -319,14 +322,6 @@ extension MapViewController : UICollectionViewDataSource, UICollectionViewDelega
             make.bottom.equalTo(self.view.snp.bottom)
             make.height.equalTo(60)
         }
-        view.addSubview(updateBar)
-            updateBar.snp.makeConstraints { (make) in
-                make.leading.equalTo(self.view.snp.leading)
-                make.trailing.equalTo(self.view.snp.trailing)
-                make.top.equalTo(self.downBar.snp.bottom)
-                make.height.equalTo(self.view.bounds.size.height*0.9)
-            }
-        
         downBar.addSubview(closeBar)
         closeBar.snp.makeConstraints { (make) in
             make.leading.equalTo(downBar.snp.leading)
@@ -339,12 +334,12 @@ extension MapViewController : UICollectionViewDataSource, UICollectionViewDelega
             make.trailing.equalTo(downBar.snp.trailing)
             make.top.equalTo(downBar.snp.top).offset(20)
         }
-       /*
+        view.addSubview(collectionList)
         collectionList.snp.makeConstraints { (make) in
-            make.leading.equalTo(self.updateBar.snp.leading)
-            make.trailing.equalTo(self.updateBar.snp.trailing)
-            
+            make.leading.equalTo(self.downBar.snp.leading)
+            make.trailing.equalTo(self.downBar.snp.trailing)
+            make.top.equalTo(self.downBar.snp.bottom)
+            make.height.equalTo(self.view.bounds.size.height*0.9)
         }
- */
     }
 }
