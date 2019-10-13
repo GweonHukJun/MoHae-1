@@ -9,7 +9,6 @@
 import UIKit
 import UIKit.UIGestureRecognizerSubclass
 import GoogleMaps
-import GooglePlaces
 import SwiftyJSON
 import SnapKit
 
@@ -31,12 +30,7 @@ class MapViewController: UIViewController {
     
     var json : JSON?
     var defaultLocation = CLLocation(latitude: -33.869405, longitude: 151.199)
-    
-    let popupOffset: CGFloat = 440
-    
-    var bottomConstraint = NSLayoutConstraint()
-  
-    var placesClient : GMSPlacesClient!
+
     var zoomLevel : Float = 15.0
     
     let url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="
@@ -65,11 +59,10 @@ class MapViewController: UIViewController {
         return view
     }()
     
-    lazy var overLayout: UIView = {
+   var updateBar: UIView = { // ---- 3
         let view = UIView()
+        view.backgroundColor = UIColor.darkGray
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .black
-        view.alpha = 0
         return view
     }()
     
@@ -97,8 +90,6 @@ class MapViewController: UIViewController {
     
     lazy var collectionList : UICollectionView = {
         let layout : UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 10, right: 10)
-        layout.itemSize = CGSize(width: 60, height: 60)
         let CV = UICollectionView(frame:  self.view.frame, collectionViewLayout: layout)
         CV.translatesAutoresizingMaskIntoConstraints = false
         CV.register(MapSearchCell.self, forCellWithReuseIdentifier: "MapSearchCell")
@@ -110,8 +101,7 @@ class MapViewController: UIViewController {
         var view = GMSMapView()
         let camera = GMSCameraPosition.camera(withLatitude: defaultLocation.coordinate.latitude, longitude: defaultLocation.coordinate.longitude, zoom: zoomLevel) // 구글 지도에 표기될 내 현 위치를 입력시켜둠
         view = GMSMapView.map(withFrame: view.bounds, camera: camera) //구글 지도 열었을 때 카메라 위치 및 내 위치 지정
-        view.settings.zoomGestures = false
-        view.settings.rotateGestures = false
+        
         view.translatesAutoresizingMaskIntoConstraints = false
         view.isMyLocationEnabled = true
         view.isHidden = false
@@ -124,9 +114,8 @@ class MapViewController: UIViewController {
         collectionList.delegate = self //collectionview를 사용하기 위해서 작성
         collectionList.dataSource = self
         
-        placesClient = GMSPlacesClient.shared() //구글 places APi 사용을 위해서 추가
-        
         setup()
+         updateBar.addSubview(collectionList)
         downBar.addGestureRecognizer(panRecognizer)
     }
     
@@ -136,45 +125,37 @@ class MapViewController: UIViewController {
     
     private func animateTransitionIfNeeded(to state: State, duration: TimeInterval) {
         
+        
         guard runningAnimators.isEmpty else { return }
 
         let transitionAnimator = UIViewPropertyAnimator(duration: duration, dampingRatio: 1, animations: {
             switch state {
             case .open:
-                self.bottomConstraint.constant = 0
                 self.downBar.layer.cornerRadius = 20
-                UIView.animate(withDuration: 1){
-                    self.downBar.center = CGPoint(x: self.view.frame.midX, y: self.view.bounds.size.height*0.1-(self.navigationController?.navigationBar.frame.height)!/2 + 30*1.6)
-                }
-                UIView.animate(withDuration: 1){
-                    self.collectionList.center = CGPoint(x:
-                        self.view.frame.midX, y: self.view.bounds.size.height*0.6+(self.navigationController?.navigationBar.frame.height)!/2)
-                }
-                self.overLayout.alpha = 0.5
+                self.downBar.center = CGPoint(x: self.view.frame.midX, y: (self.navigationController?.navigationBar.bounds.size.height)!*2+self.downBar.bounds.size.height/2)
+                self.updateBar.center = CGPoint(x:self.view.frame.midX, y: (self.navigationController?.navigationBar.bounds.size.height)!*2+self.downBar.bounds.size.height+self.updateBar.bounds.size.height/2)
+               
                 self.closeBar.transform = CGAffineTransform(scaleX: 1.6, y: 1.6).concatenating(CGAffineTransform(translationX: 0, y: 15))
                 self.openBar.transform = .identity
             case .closed:
-                self.bottomConstraint.constant = self.popupOffset
                 self.downBar.layer.cornerRadius = 0
-                UIView.animate(withDuration: 1){
-                    self.downBar.center = CGPoint(x: self.view.frame.midX, y: self.view.bounds.size.height-30)
-                }
-                UIView.animate(withDuration: 1){
-                    self.collectionList.center = CGPoint(x:
-                        self.view.frame.midX, y: self.view.bounds.size.height + self.view.bounds.size.height*0.6 )
-                }
-                self.overLayout.alpha = 0
+                self.downBar.center = CGPoint(x: self.view.frame.midX, y:self.view.frame.height-self.downBar.bounds.size.height/2)
+                self.updateBar.center = CGPoint(x:self.view.frame.midX, y: self.view.bounds.size.height*1.45 )
                 self.closeBar.transform = .identity
                 self.openBar.transform = CGAffineTransform(scaleX: 0.65, y: 0.65).concatenating(CGAffineTransform(translationX: 0, y: -15))
             }
+            
+            
             self.view.layoutIfNeeded()
+            self.downBar.layoutIfNeeded()
+            self.collectionList.layoutIfNeeded()
         })
         
         // the transition completion block
         transitionAnimator.addCompletion { position in
             
             // update the state
-            switch position {
+            switch position {  //현재 downbar가 내려가 있는지 올라와있는지 구별해준다
                 case .start:
                     self.currentState = state.opposite
                 case .end:
@@ -182,14 +163,7 @@ class MapViewController: UIViewController {
                 case .current:
                     ()
             }
-            
-            // manually reset the constraint positions
-            switch self.currentState {
-            case .open:
-                self.bottomConstraint.constant = 0
-            case .closed:
-                self.bottomConstraint.constant = self.popupOffset
-            }
+        
             
             // remove all running animators
             self.runningAnimators.removeAll()
@@ -236,8 +210,7 @@ class MapViewController: UIViewController {
             
             // start the animations
             animateTransitionIfNeeded(to: currentState.opposite, duration: 1)
-            
-            // pause all animations, since the next event may be a pan changed
+                        // pause all animations, since the next event may be a pan changed
             runningAnimators.forEach { $0.pauseAnimation() }
             
             // keep track of each animator's progress
@@ -246,16 +219,18 @@ class MapViewController: UIViewController {
         case .changed:
             
             // variable setup
-            let translation = recognizer.translation(in: downBar)
-            var fraction = -translation.y / popupOffset
-            
+            let translation = recognizer.translation(in: downBar) //downBar에 크기 구한다.
+            var fraction = -translation.y/400  //뷰 올릴 때 한번에 얼마나 올라갈지 정하는 변수
+         
             // adjust the fraction for the current state and reversed state
-            if currentState == .open { fraction *= -1 }
+            if currentState == .open { fraction *= -1 } //ㅇ
             if runningAnimators[0].isReversed { fraction *= -1 }
             
             // apply the new fraction
+            //enumerated - 쌍의 시퀀스 (n, x)를 반환합니다. 여기서 n은 0에서 시작하는 연속 정수를 나타내고 x는 시퀀스의 요소를 나타냅니다.
             for (index, animator) in runningAnimators.enumerated() {
                 animator.fractionComplete = fraction + animationProgress[index]
+                //fractionComplete - 이 속성의 값은 애니메이션 시작시 0.0, 애니메이션 끝에서 1.0입니다. 중간 값은 애니메이션 실행의 진행률을 나타냅니다. 예를 들어, 값 0.5는 애니메이션이 정확히 반쯤 완료되었음을 나타냅니다
             }
             
         case .ended:
@@ -308,7 +283,7 @@ extension MapViewController : UICollectionViewDataSource, UICollectionViewDelega
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 19
+        return 20
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -337,14 +312,6 @@ extension MapViewController : UICollectionViewDataSource, UICollectionViewDelega
             make.bottom.equalTo(self.view.snp.bottom)
         }
         
-        view.addSubview(overLayout)
-        mapView.snp.makeConstraints { (make) in
-           make.leading.equalTo(self.view.snp.leading)
-           make.trailing.equalTo(self.view.snp.trailing)
-            make.top.equalTo(self.view.snp.top)
-            make.bottom.equalTo(self.view.snp.bottom)
-        }
-        
         view.addSubview(downBar)
         downBar.snp.makeConstraints { (make) in
             make.leading.equalTo(self.view.snp.leading)
@@ -352,6 +319,14 @@ extension MapViewController : UICollectionViewDataSource, UICollectionViewDelega
             make.bottom.equalTo(self.view.snp.bottom)
             make.height.equalTo(60)
         }
+        view.addSubview(updateBar)
+            updateBar.snp.makeConstraints { (make) in
+                make.leading.equalTo(self.view.snp.leading)
+                make.trailing.equalTo(self.view.snp.trailing)
+                make.top.equalTo(self.downBar.snp.bottom)
+                make.height.equalTo(self.view.bounds.size.height*0.9)
+            }
+        
         downBar.addSubview(closeBar)
         closeBar.snp.makeConstraints { (make) in
             make.leading.equalTo(downBar.snp.leading)
@@ -362,16 +337,14 @@ extension MapViewController : UICollectionViewDataSource, UICollectionViewDelega
         openBar.snp.makeConstraints { (make) in
             make.leading.equalTo(downBar.snp.leading)
             make.trailing.equalTo(downBar.snp.trailing)
-             bottomConstraint = downBar.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: popupOffset)
-            bottomConstraint.isActive = true
-            make.top.equalTo(downBar.snp.top).offset(30)
+            make.top.equalTo(downBar.snp.top).offset(20)
         }
-        view.addSubview(collectionList)
+       /*
         collectionList.snp.makeConstraints { (make) in
-            make.leading.equalTo(self.view.snp.leading)
-            make.trailing.equalTo(self.view.snp.trailing)
-            make.top.equalTo(self.downBar.snp.bottom)
-            make.height.equalTo(self.view.bounds.size.height*0.9)
+            make.leading.equalTo(self.updateBar.snp.leading)
+            make.trailing.equalTo(self.updateBar.snp.trailing)
+            
         }
+ */
     }
 }
