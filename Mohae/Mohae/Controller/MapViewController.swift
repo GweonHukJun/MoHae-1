@@ -11,6 +11,7 @@ import UIKit.UIGestureRecognizerSubclass
 import GoogleMaps
 import SwiftyJSON
 import SnapKit
+import GooglePlaces
 
 private enum State {
     case closed
@@ -26,17 +27,16 @@ extension State {
     }
 }
 
-class MapViewController: UIViewController {
+class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     
+    var placesClient : GMSPlacesClient!
     var json : JSON?
     var defaultLocation = CLLocation(latitude: -33.869405, longitude: 151.199)
 
     var zoomLevel : Float = 15.0
-    
-    let url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="
-    let radiusType = "&language=ko&rankby=distance&type="
-    let search = "restaurant"
-    let key = "&key="
+
+    var image : UIImage?
+    var place_id : String?
     
     private var currentState: State = .closed
     private var runningAnimators = [UIViewPropertyAnimator]()
@@ -94,7 +94,6 @@ class MapViewController: UIViewController {
         var view = GMSMapView()
         let camera = GMSCameraPosition.camera(withLatitude: defaultLocation.coordinate.latitude, longitude: defaultLocation.coordinate.longitude, zoom: zoomLevel) // 구글 지도에 표기될 내 현 위치를 입력시켜둠
         view = GMSMapView.map(withFrame: view.bounds, camera: camera) //구글 지도 열었을 때 카메라 위치 및 내 위치 지정
-        
         view.translatesAutoresizingMaskIntoConstraints = false
         view.isMyLocationEnabled = true
         view.isHidden = false
@@ -104,22 +103,17 @@ class MapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     
+        placesClient = GMSPlacesClient.shared()
+        
         collectionList.delegate = self //collectionview를 사용하기 위해서 작성
         collectionList.dataSource = self
         
-        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeRightGesture(recognizer:)))
-        
-        swipeRight.direction = .right
+        panRecognizer.delegate = self
         
         setup()
         downBar.addGestureRecognizer(panRecognizer)
-        collectionList.gestureRecognizers = [swipeRight]
-    }
-    
-    @objc func handleSwipeRightGesture(recognizer: UISwipeGestureRecognizer) {
-       //이걸로 스크롤 하자
-            print("This swipe is right")
-        
+        collectionList.reloadData()
+        //collectionList.gestureRecognizers = [swipeRight]
     }
     
     override var prefersStatusBarHidden: Bool {
@@ -150,8 +144,6 @@ class MapViewController: UIViewController {
             
             
             self.view.layoutIfNeeded()
-            self.downBar.layoutIfNeeded()
-            self.collectionList.layoutIfNeeded()
         })
         
         // the transition completion block
@@ -206,6 +198,10 @@ class MapViewController: UIViewController {
         runningAnimators.append(outTitleAnimator)
         
     }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+          return true
+      }
     
     @objc private func popupViewPanned(recognizer: UIPanGestureRecognizer) {
         switch recognizer.state {
@@ -282,7 +278,7 @@ extension MapViewController : UICollectionViewDataSource, UICollectionViewDelega
     
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width, height: 120)
+        return CGSize(width: view.frame.width, height: collectionList.frame.height/6)
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -294,16 +290,58 @@ extension MapViewController : UICollectionViewDataSource, UICollectionViewDelega
         cell.backgroundColor = .yellow
         cell.name.text = json?["results"][indexPath.row]["name"].stringValue
         cell.type.text = json?["results"][indexPath.row]["types"][0].stringValue
-       
         cell.type2.text = json?["results"][indexPath.row]["types"][1].stringValue
+        
+        if json?["results"][indexPath.row]["place_id"].stringValue != nil{
+            self.place_id = json?["results"][indexPath.row]["place_id"].stringValue
+            if self.place_id != nil{
+                 photo(places: self.place_id!)
+                cell.photo.image  = self.image
+            }
+        }
         cell.id = json?["results"][indexPath.row]["id"].stringValue
-        cell.place_id = json?["results"][indexPath.row]["place_id"].stringValue
         cell.lat = json?["results"][indexPath.row]["geometry"]["location"]["lat"].doubleValue
         cell.lng = json?["results"][indexPath.row]["geometry"]["location"]["lng"].doubleValue
         
         
         return cell
     }
+    
+    func photo(places:String) {
+        
+           let placeString = places
+           let fields: GMSPlaceField = GMSPlaceField(rawValue: UInt(GMSPlaceField.photos.rawValue))!
+        placesClient?.fetchPlace(fromPlaceID: places, placeFields: fields, sessionToken: nil, callback: {
+                (place: GMSPlace?, error: Error?) in
+                if let error = error {
+                  print("An error occurred: \(error.localizedDescription)")
+                  return
+                }
+                if let place = place {
+                    print(placeString)
+                  // Get the metadata for the first photo in the place photo metadata list.
+                    if place.photos?[0] != nil {
+                        let photoMetadata: GMSPlacePhotoMetadata = place.photos![0]
+
+                      // Call loadPlacePhoto to display the bitmap and attribution.
+                      self.placesClient?.loadPlacePhoto(photoMetadata, callback: { (photo, error) -> Void in
+                        if let error = error {
+                          // TODO: Handle the error.
+                          print("Error loading photo metadata: \(error.localizedDescription)")
+                          return
+                        } else {
+                          // Display the first image and its attributions.
+                           self.image = photo
+                          //self.lblText.attributedText = photoMetadata.attributions;
+                        }
+                    })
+                  } else {
+            
+                  }
+            }}
+        )
+    }
+ 
     
     func setup(){
         

@@ -21,10 +21,12 @@ class AgreeViewController: UIViewController, CLLocationManagerDelegate {
     var defaultLocation = CLLocation(latitude: -33.869405, longitude: 151.199)
     
     var delegate : MapViewController?
-    
+        
+   
+    //var lblText = NSAttributedString?
     let url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="
     let radiusType = "&language=ko&rankby=distance&type="
-    let search = "restaurant"
+    let search = "bank"
     let key = "&key="
     
     lazy var button: UIButton = {
@@ -36,23 +38,19 @@ class AgreeViewController: UIViewController, CLLocationManagerDelegate {
     
     override func loadView() {
         super.loadView()
-        
-       
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         locationManager = CLLocationManager()
-               locationManager?.delegate = self
-               locationManager?.requestWhenInUseAuthorization() //권한 요청
-               locationManager?.desiredAccuracy = kCLLocationAccuracyBest
-               locationManager?.startUpdatingLocation()
+        locationManager?.delegate = self
+        locationManager?.requestWhenInUseAuthorization() //권한 요청
+        locationManager?.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager?.startUpdatingLocation()
         
         placesClient = GMSPlacesClient.shared()
-        
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem:.add,target: self, action:#selector(agree(sender:)))
-        
         view.addSubview(button)
     }
     
@@ -65,7 +63,7 @@ class AgreeViewController: UIViewController, CLLocationManagerDelegate {
         let lng : Double = (locationManager?.location?.coordinate.longitude)!
         
         let addQuery = url + "\(lat)" + "," + "\(lng)" + radiusType + search +  key + browKey
-        print(addQuery)
+    
         
         let encoded = addQuery.addingPercentEncoding( withAllowedCharacters: NSCharacterSet.urlQueryAllowed)
         var request = URLRequest(url: URL(string: encoded!)!)
@@ -92,7 +90,7 @@ class AgreeViewController: UIViewController, CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         //위치가 업데이트될때마다
         if let coor = manager.location?.coordinate{
-            print("latitude" + String(coor.latitude) + "/ longitude" + String(coor.longitude))
+            
             callURL(url: self.url, search: self.search)
         }
     }
