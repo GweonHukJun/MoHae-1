@@ -110,11 +110,24 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         
         panRecognizer.delegate = self
         
+        let bottomRefreshController = UIRefreshControl()
+    
+        
+        bottomRefreshController.addTarget(self, action: #selector(MapViewController.refreshBottom), for: .valueChanged)
+
+        //collectionList.bottomRefreshControl = bottomRefreshController
+       
+        
         setup()
         downBar.addGestureRecognizer(panRecognizer)
         collectionList.reloadData()
         //collectionList.gestureRecognizers = [swipeRight]
     }
+    
+    @objc func refreshBottom() {
+                //api call for loading more data
+                //loadMoreData()
+           }
     
     override var prefersStatusBarHidden: Bool {
         return true
@@ -293,11 +306,7 @@ extension MapViewController : UICollectionViewDataSource, UICollectionViewDelega
         cell.type2.text = json?["results"][indexPath.row]["types"][1].stringValue
         
         if json?["results"][indexPath.row]["place_id"].stringValue != nil{
-            self.place_id = json?["results"][indexPath.row]["place_id"].stringValue
-            if self.place_id != nil{
-                 photo(places: self.place_id!)
-                cell.photo.image  = self.image
-            }
+            cell.photo.loadImageUsingCacheWithUrlString(urlString: (json?["results"][indexPath.row]["place_id"].stringValue)!)
         }
         cell.id = json?["results"][indexPath.row]["id"].stringValue
         cell.lat = json?["results"][indexPath.row]["geometry"]["location"]["lat"].doubleValue

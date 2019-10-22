@@ -29,7 +29,9 @@ class MapSearchCell: UICollectionViewCell {
         let photo = UIImageView()
         photo.translatesAutoresizingMaskIntoConstraints = false
         photo.backgroundColor = .black
-        photo.layer.cornerRadius = 40
+        photo.layer.masksToBounds = true
+        photo.contentMode = .scaleAspectFill
+        photo.layer.cornerRadius = 20
         return photo
     }()
     
