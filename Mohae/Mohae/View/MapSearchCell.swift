@@ -40,6 +40,7 @@ class MapSearchCell: UICollectionViewCell {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = 20
         view.backgroundColor = .white
+        view.isUserInteractionEnabled = true
        return view
     }()
     

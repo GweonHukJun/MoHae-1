@@ -14,6 +14,7 @@
 		BC1066CD233B464400C241C1 /* MapSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1066CC233B464400C241C1 /* MapSearch.swift */; };
 		BC1066CF233B4CEF00C241C1 /* MapSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1066CE233B4CEF00C241C1 /* MapSearchCell.swift */; };
 		BC1066D1233B794700C241C1 /* AgreeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1066D0233B794700C241C1 /* AgreeViewController.swift */; };
+		BC44DB0D2361731300C82D80 /* LoadingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC44DB0C2361731300C82D80 /* LoadingCell.swift */; };
 		BC58B5BA235EBDF6002B5144 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC58B5B9235EBDF6002B5144 /* Extension.swift */; };
 		BC8D4A7022F9635B007C7F67 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8D4A6F22F9635B007C7F67 /* AppDelegate.swift */; };
 		BC8D4A7222F9635B007C7F67 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8D4A7122F9635B007C7F67 /* MapViewController.swift */; };
@@ -53,6 +54,7 @@
 		BC1066CC233B464400C241C1 /* MapSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSearch.swift; sourceTree = "<group>"; };
 		BC1066CE233B4CEF00C241C1 /* MapSearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSearchCell.swift; sourceTree = "<group>"; };
 		BC1066D0233B794700C241C1 /* AgreeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgreeViewController.swift; sourceTree = "<group>"; };
+		BC44DB0C2361731300C82D80 /* LoadingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingCell.swift; sourceTree = "<group>"; };
 		BC58B5B9235EBDF6002B5144 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		BC8D4A6C22F9635B007C7F67 /* Mohae.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mohae.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC8D4A6F22F9635B007C7F67 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 			isa = PBXGroup;
 			children = (
 				BC1066CE233B4CEF00C241C1 /* MapSearchCell.swift */,
+				BC44DB0C2361731300C82D80 /* LoadingCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -427,6 +430,7 @@
 			files = (
 				BC006E222339DF3000C5F825 /* PlacesViewController.swift in Sources */,
 				BC8D4A7222F9635B007C7F67 /* MapViewController.swift in Sources */,
+				BC44DB0D2361731300C82D80 /* LoadingCell.swift in Sources */,
 				BC58B5BA235EBDF6002B5144 /* Extension.swift in Sources */,
 				BC1066CF233B4CEF00C241C1 /* MapSearchCell.swift in Sources */,
 				BC1066CD233B464400C241C1 /* MapSearch.swift in Sources */,

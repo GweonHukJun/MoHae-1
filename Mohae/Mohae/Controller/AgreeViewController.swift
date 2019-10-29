@@ -14,6 +14,8 @@ import SwiftyJSON
 class AgreeViewController: UIViewController, CLLocationManagerDelegate {
 
     var json : JSON?
+    var item : [JSON] = []
+    var jsonCount : Int?
     var placesClient : GMSPlacesClient!
     var zoomLevel : Float = 15.0
     var locationManager:CLLocationManager?
@@ -50,6 +52,8 @@ class AgreeViewController: UIViewController, CLLocationManagerDelegate {
         locationManager?.startUpdatingLocation()
         
         placesClient = GMSPlacesClient.shared()
+        
+        
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem:.add,target: self, action:#selector(agree(sender:)))
         view.addSubview(button)
     }
@@ -78,7 +82,6 @@ class AgreeViewController: UIViewController, CLLocationManagerDelegate {
                 self.json = JSON(data)
                 
             }
-            print(self.json ?? "오류가 일어나서 데이터가 안들어갔네용^^")
             //통신 실패
             if let error = error {
                 print(error.localizedDescription)
@@ -87,11 +90,24 @@ class AgreeViewController: UIViewController, CLLocationManagerDelegate {
         task.resume()
     }
     
+    func itemAppend(){
+        for i in 0...(jsonCount ?? 6){
+            item.append((self.json?["results"][i])!)
+        }
+    }
+    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         //위치가 업데이트될때마다
-        if let coor = manager.location?.coordinate{
-            
+        if (manager.location?.coordinate) != nil{
             callURL(url: self.url, search: self.search)
+            if json != nil {
+                jsonCount = json?["results"].count
+                print(jsonCount)
+                if jsonCount != nil {
+                    itemAppend()
+                }
+
+            }
         }
     }
     
@@ -99,7 +115,8 @@ class AgreeViewController: UIViewController, CLLocationManagerDelegate {
     {
         let view = MapViewController()
         view.defaultLocation = CLLocation(latitude: (locationManager?.location?.coordinate.latitude)!, longitude: (locationManager?.location?.coordinate.longitude)!)
-        view.json = self.json
+        view.itemReady = self.item
+        view.jsonCount = self.jsonCount
         self.navigationController?.pushViewController(view, animated: true)
     }
 }

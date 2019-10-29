@@ -29,10 +29,17 @@ extension State {
 
 class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     
+    var isLoading:Bool = false
+    let footerViewReuseIdentifier = "RefreshFooterView"
+    
     var placesClient : GMSPlacesClient!
-    var json : JSON?
+    var item : [JSON] = []
+     var itemReady : [JSON] = []
+    
+    var jsonCount : Int?
     var defaultLocation = CLLocation(latitude: -33.869405, longitude: 151.199)
 
+     var count = 0
     var zoomLevel : Float = 15.0
 
     var image : UIImage?
@@ -86,6 +93,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         let CV = UICollectionView(frame:  self.view.frame, collectionViewLayout: layout)
         CV.translatesAutoresizingMaskIntoConstraints = false
         CV.register(MapSearchCell.self, forCellWithReuseIdentifier: "MapSearchCell")
+        CV.register(LoadingCell.self, forCellWithReuseIdentifier: "loadingCellIdentifier")
         CV.backgroundColor = .white
         return CV
     }()
@@ -110,24 +118,30 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         
         panRecognizer.delegate = self
         
-        let bottomRefreshController = UIRefreshControl()
-    
-        
-        bottomRefreshController.addTarget(self, action: #selector(MapViewController.refreshBottom), for: .valueChanged)
-
-        //collectionList.bottomRefreshControl = bottomRefreshController
-       
-        
+        refreshData()
+      
         setup()
         downBar.addGestureRecognizer(panRecognizer)
         collectionList.reloadData()
         //collectionList.gestureRecognizers = [swipeRight]
     }
+   
+
     
-    @objc func refreshBottom() {
-                //api call for loading more data
-                //loadMoreData()
-           }
+    @objc func refreshData(){
+        for i in count...count+6{
+            if i <= jsonCount! - 1 {
+                item.append(itemReady[i])
+            }
+        }
+        count = count + 6
+        DispatchQueue.main.async {
+            if self.count <= self.jsonCount!-1{
+                self.collectionList.reloadData()
+            }
+            
+        }
+    }
     
     override var prefersStatusBarHidden: Bool {
         return true
@@ -216,6 +230,14 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
           return true
       }
     
+    func pinMarker(lat : Double, lng : Double, type : String, name : String){
+        let marker = GMSMarker()
+        marker.position = CLLocationCoordinate2D(latitude: lat, longitude: lng)
+        marker.title = "Sydney"
+        marker.snippet = "Australia"
+        marker.map = self.mapView
+    }
+    
     @objc private func popupViewPanned(recognizer: UIPanGestureRecognizer) {
         switch recognizer.state {
         case .began:
@@ -289,29 +311,35 @@ class InstantPanGestureRecognizer: UIPanGestureRecognizer {
 
 extension MapViewController : UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
     
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.frame.width, height: collectionList.frame.height/6)
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 20
+        return item.count + 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        if indexPath.row == self.item.count {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "loadingCellIdentifier", for: indexPath) as! LoadingCell
+             refreshData()
+             return cell
+           }
+        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MapSearchCell", for: indexPath) as! MapSearchCell
         cell.backgroundColor = .yellow
-        cell.name.text = json?["results"][indexPath.row]["name"].stringValue
-        cell.type.text = json?["results"][indexPath.row]["types"][0].stringValue
-        cell.type2.text = json?["results"][indexPath.row]["types"][1].stringValue
+        cell.name.text = item[indexPath.row]["name"].stringValue
+        cell.type.text = item[indexPath.row]["types"][0].stringValue
+        cell.type2.text = item[indexPath.row]["types"][1].stringValue
+        cell.photo.loadImageUsingCacheWithUrlString(urlString: (item[indexPath.row]["place_id"].stringValue))
         
-        if json?["results"][indexPath.row]["place_id"].stringValue != nil{
-            cell.photo.loadImageUsingCacheWithUrlString(urlString: (json?["results"][indexPath.row]["place_id"].stringValue)!)
-        }
-        cell.id = json?["results"][indexPath.row]["id"].stringValue
-        cell.lat = json?["results"][indexPath.row]["geometry"]["location"]["lat"].doubleValue
-        cell.lng = json?["results"][indexPath.row]["geometry"]["location"]["lng"].doubleValue
         
+        cell.id = item[indexPath.row]["id"].stringValue
+        cell.lat = item[indexPath.row]["geometry"]["location"]["lat"].doubleValue
+        cell.lng = item[indexPath.row]["geometry"]["location"]["lng"].doubleValue
+        
+        cell.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleCellSelected(sender:))))
         
         return cell
     }
@@ -350,7 +378,12 @@ extension MapViewController : UICollectionViewDataSource, UICollectionViewDelega
             }}
         )
     }
- 
+    
+    @objc func handleCellSelected(sender: UITapGestureRecognizer){
+        let cell = sender.view as! MapSearchCell
+        let indexPath = collectionList.indexPath(for: cell)
+        pinMarker(lat: cell.lat!, lng: cell.lng!, type: cell.type.text!, name: cell.name.text!)
+    }
     
     func setup(){
         

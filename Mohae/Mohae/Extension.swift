@@ -10,6 +10,7 @@ import UIKit
 import GooglePlaces
 
 let imageCache = NSCache<AnyObject, AnyObject>()
+let noImage = #imageLiteral(resourceName: "icons8-error")
 
 extension UIImageView {
     func loadImageUsingCacheWithUrlString(urlString: String) {
@@ -34,7 +35,8 @@ extension UIImageView {
                                if let error = error {
                                  // TODO: Handle the error.
                                  print("Error loading photo metadata: \(error.localizedDescription)")
-                                 return
+                                self.image = noImage
+                                return
                                } else {
                                  // Display the first image and its attributions.
                                 DispatchQueue.main.async {
