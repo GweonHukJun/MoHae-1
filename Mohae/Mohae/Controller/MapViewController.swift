@@ -40,7 +40,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     var defaultLocation = CLLocation(latitude: -33.869405, longitude: 151.199)
 
      var count = 0
-    var zoomLevel : Float = 15.0
+    var zoomLevel : Float = 17.0
 
     var image : UIImage?
     var place_id : String?
@@ -105,6 +105,8 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.isMyLocationEnabled = true
         view.isHidden = false
+        view.mapType = .normal
+        view.isIndoorEnabled = true
         return view
     }()
     
@@ -231,10 +233,11 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
       }
     
     func pinMarker(lat : Double, lng : Double, type : String, name : String){
+        mapView.clear()
         let marker = GMSMarker()
         marker.position = CLLocationCoordinate2D(latitude: lat, longitude: lng)
-        marker.title = "Sydney"
-        marker.snippet = "Australia"
+        marker.title = type
+        marker.snippet = name
         marker.map = self.mapView
     }
     

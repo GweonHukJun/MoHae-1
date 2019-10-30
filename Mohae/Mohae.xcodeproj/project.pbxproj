@@ -10,17 +10,15 @@
 		0F1A5ABC45AB717212BCFAE0 /* libPods-MohaeUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 784DBB9284FE2D03B8A406A2 /* libPods-MohaeUITests.a */; };
 		24751D351A9334294A91E58D /* libPods-MohaeTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B4EAAF238C9ECB388247514 /* libPods-MohaeTests.a */; };
 		3EB94FCB0F3E294F2C1A8CCF /* libPods-Mohae.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84F9E13BE5E3A8BAFC994D26 /* libPods-Mohae.a */; };
-		BC006E222339DF3000C5F825 /* PlacesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC006E212339DF3000C5F825 /* PlacesViewController.swift */; };
 		BC1066CD233B464400C241C1 /* MapSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1066CC233B464400C241C1 /* MapSearch.swift */; };
 		BC1066CF233B4CEF00C241C1 /* MapSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1066CE233B4CEF00C241C1 /* MapSearchCell.swift */; };
 		BC1066D1233B794700C241C1 /* AgreeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1066D0233B794700C241C1 /* AgreeViewController.swift */; };
 		BC44DB0D2361731300C82D80 /* LoadingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC44DB0C2361731300C82D80 /* LoadingCell.swift */; };
+		BC44DB17236987F100C82D80 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC44DB16236987F100C82D80 /* MapViewController.swift */; };
+		BC44DB18236989EB00C82D80 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BC8D4A7822F9635D007C7F67 /* LaunchScreen.storyboard */; };
 		BC58B5BA235EBDF6002B5144 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC58B5B9235EBDF6002B5144 /* Extension.swift */; };
 		BC8D4A7022F9635B007C7F67 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8D4A6F22F9635B007C7F67 /* AppDelegate.swift */; };
-		BC8D4A7222F9635B007C7F67 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8D4A7122F9635B007C7F67 /* MapViewController.swift */; };
-		BC8D4A7522F9635B007C7F67 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BC8D4A7322F9635B007C7F67 /* Main.storyboard */; };
 		BC8D4A7722F9635D007C7F67 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BC8D4A7622F9635D007C7F67 /* Assets.xcassets */; };
-		BC8D4A7A22F9635D007C7F67 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BC8D4A7822F9635D007C7F67 /* LaunchScreen.storyboard */; };
 		BC8D4A8522F9635D007C7F67 /* MohaeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8D4A8422F9635D007C7F67 /* MohaeTests.swift */; };
 		BC8D4A9022F9635D007C7F67 /* MohaeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8D4A8F22F9635D007C7F67 /* MohaeUITests.swift */; };
 /* End PBXBuildFile section */
@@ -50,16 +48,14 @@
 		84F9E13BE5E3A8BAFC994D26 /* libPods-Mohae.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Mohae.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A82B30AAD2731A695EC7C1F /* Pods-MohaeTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MohaeTests.debug.xcconfig"; path = "Target Support Files/Pods-MohaeTests/Pods-MohaeTests.debug.xcconfig"; sourceTree = "<group>"; };
 		A286331B3821405F3C0A18E1 /* Pods-MohaeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MohaeTests.release.xcconfig"; path = "Target Support Files/Pods-MohaeTests/Pods-MohaeTests.release.xcconfig"; sourceTree = "<group>"; };
-		BC006E212339DF3000C5F825 /* PlacesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesViewController.swift; sourceTree = "<group>"; };
 		BC1066CC233B464400C241C1 /* MapSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSearch.swift; sourceTree = "<group>"; };
 		BC1066CE233B4CEF00C241C1 /* MapSearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSearchCell.swift; sourceTree = "<group>"; };
-		BC1066D0233B794700C241C1 /* AgreeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgreeViewController.swift; sourceTree = "<group>"; };
+		BC1066D0233B794700C241C1 /* AgreeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = AgreeViewController.swift; sourceTree = "<group>"; };
 		BC44DB0C2361731300C82D80 /* LoadingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingCell.swift; sourceTree = "<group>"; };
+		BC44DB16236987F100C82D80 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		BC58B5B9235EBDF6002B5144 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		BC8D4A6C22F9635B007C7F67 /* Mohae.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mohae.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC8D4A6F22F9635B007C7F67 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		BC8D4A7122F9635B007C7F67 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = MapViewController.swift; sourceTree = "<group>"; };
-		BC8D4A7422F9635B007C7F67 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BC8D4A7622F9635D007C7F67 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BC8D4A7922F9635D007C7F67 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BC8D4A7B22F9635D007C7F67 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -137,7 +133,7 @@
 			isa = PBXGroup;
 			children = (
 				BC1066D0233B794700C241C1 /* AgreeViewController.swift */,
-				BC8D4A7122F9635B007C7F67 /* MapViewController.swift */,
+				BC44DB16236987F100C82D80 /* MapViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -180,8 +176,6 @@
 				BC1066C7233B45FA00C241C1 /* View */,
 				BC8D4A6F22F9635B007C7F67 /* AppDelegate.swift */,
 				BC58B5B9235EBDF6002B5144 /* Extension.swift */,
-				BC006E212339DF3000C5F825 /* PlacesViewController.swift */,
-				BC8D4A7322F9635B007C7F67 /* Main.storyboard */,
 				BC8D4A7622F9635D007C7F67 /* Assets.xcassets */,
 				BC8D4A7822F9635D007C7F67 /* LaunchScreen.storyboard */,
 				BC8D4A7B22F9635D007C7F67 /* Info.plist */,
@@ -315,9 +309,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BC8D4A7A22F9635D007C7F67 /* LaunchScreen.storyboard in Resources */,
 				BC8D4A7722F9635D007C7F67 /* Assets.xcassets in Resources */,
-				BC8D4A7522F9635B007C7F67 /* Main.storyboard in Resources */,
+				BC44DB18236989EB00C82D80 /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -428,14 +421,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BC006E222339DF3000C5F825 /* PlacesViewController.swift in Sources */,
-				BC8D4A7222F9635B007C7F67 /* MapViewController.swift in Sources */,
 				BC44DB0D2361731300C82D80 /* LoadingCell.swift in Sources */,
 				BC58B5BA235EBDF6002B5144 /* Extension.swift in Sources */,
 				BC1066CF233B4CEF00C241C1 /* MapSearchCell.swift in Sources */,
 				BC1066CD233B464400C241C1 /* MapSearch.swift in Sources */,
 				BC8D4A7022F9635B007C7F67 /* AppDelegate.swift in Sources */,
 				BC1066D1233B794700C241C1 /* AgreeViewController.swift in Sources */,
+				BC44DB17236987F100C82D80 /* MapViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -471,14 +463,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		BC8D4A7322F9635B007C7F67 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				BC8D4A7422F9635B007C7F67 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		BC8D4A7822F9635D007C7F67 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (

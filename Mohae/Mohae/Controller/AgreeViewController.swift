@@ -10,54 +10,64 @@ import UIKit
 import GoogleMaps
 import GooglePlaces
 import SwiftyJSON
-
+import SnapKit
+// 문제는 itme과 jsonCount에 값이 제대로 입력이 안된다.
 class AgreeViewController: UIViewController, CLLocationManagerDelegate {
 
+    //1.5초 후 실행되는 함수를 위해서 시간초를 세어줌
+    var timer = Timer()
+    var time = 0
+    //json데이터 처리 변수들
     var json : JSON?
     var item : [JSON] = []
     var jsonCount : Int?
-    var placesClient : GMSPlacesClient!
-    var zoomLevel : Float = 15.0
-    var locationManager:CLLocationManager?
- 
-    var defaultLocation = CLLocation(latitude: -33.869405, longitude: 151.199)
     
+    //구글의 place api를 받아오기 위해서 필요
+    var placesClient : GMSPlacesClient!
+    //내 위치를 받아오기 위해서 사용
+    var locationManager:CLLocationManager?
+    //구글 지도의 보이는 확대 레벨을 표기해주는 변수
+    var zoomLevel : Float = 15.0
+    //내 위치를 받아서 저장할 변수
+    var defaultLocation = CLLocation(latitude: -33.869405, longitude: 151.199)
+    //MapViewController의 객체
     var delegate : MapViewController?
-        
-   
-    //var lblText = NSAttributedString?
+    //구글 place api의 데이터들을 불러오기 위해서 사용되는 변수들
     let url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="
     let radiusType = "&language=ko&rankby=distance&type="
     let search = "bank"
     let key = "&key="
-    
-    lazy var button: UIButton = {
-        let btn = UIButton()
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.addTarget(self, action: #selector(agree), for: .touchUpInside)
-        return btn
+    //activity indiactor
+    lazy var indicator : UIActivityIndicatorView = {
+        var indi = UIActivityIndicatorView()
+        indi.startAnimating()
+        indi.translatesAutoresizingMaskIntoConstraints = false
+        return indi
     }()
-    
+
     override func loadView() {
         super.loadView()
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
+        //현재 위치
         locationManager = CLLocationManager()
         locationManager?.delegate = self
         locationManager?.requestWhenInUseAuthorization() //권한 요청
         locationManager?.desiredAccuracy = kCLLocationAccuracyBest
         locationManager?.startUpdatingLocation()
-        
-        placesClient = GMSPlacesClient.shared()
-        
-        
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem:.add,target: self, action:#selector(agree(sender:)))
-        view.addSubview(button)
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        view.backgroundColor = .systemPink
+        //title을 정해준다
+        title = "당신의 선택"
+        //구글 place api를 사용하기 위해서 추가
+        placesClient = GMSPlacesClient.shared()
+        setup()
+        startTimer()
+    }
+    
+    //url에서 json데이터를 받아오는 함수
     func callURL(url:String,search : String){
         
         let browKey = "AIzaSyDyStsE4WHE1YLRVx9uYRFLjqZ3tlEmdrE"
@@ -80,7 +90,6 @@ class AgreeViewController: UIViewController, CLLocationManagerDelegate {
             //통신 성공
             if let data = data {
                 self.json = JSON(data)
-                
             }
             //통신 실패
             if let error = error {
@@ -90,34 +99,67 @@ class AgreeViewController: UIViewController, CLLocationManagerDelegate {
         task.resume()
     }
     
+    //받아온 json데이터를 배열로 만들어 주는 함수
     func itemAppend(){
         for i in 0...(jsonCount ?? 6){
             item.append((self.json?["results"][i])!)
         }
     }
     
+    //타이머를 작동시켜서 timeLimit()을 실행된다.
+    func startTimer(){
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timeLimit), userInfo: nil, repeats: true)
+    }
+    //위치가 업데이트될때마다
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        //위치가 업데이트될때마다
         if (manager.location?.coordinate) != nil{
             callURL(url: self.url, search: self.search)
-            if json != nil {
-                jsonCount = json?["results"].count
-                print(jsonCount)
-                if jsonCount != nil {
-                    itemAppend()
-                }
-
-            }
         }
     }
-    
-    @objc func agree(sender:UIButton)
-    {
-        let view = MapViewController()
-        view.defaultLocation = CLLocation(latitude: (locationManager?.location?.coordinate.latitude)!, longitude: (locationManager?.location?.coordinate.longitude)!)
-        view.itemReady = self.item
-        view.jsonCount = self.jsonCount
-        self.navigationController?.pushViewController(view, animated: true)
+    //alert창을 나오게 하는 함수
+    func showAlert(style : UIAlertController.Style, result : String){
+        let alert = UIAlertController(title: "모해의 추천!!!", message: result + "는 어때?", preferredStyle: .alert)
+        let success = UIAlertAction(title: "너무 좋죠", style: .default) { (action) in
+            let view = MapViewController()
+            view.defaultLocation = CLLocation(latitude: (self.locationManager?.location?.coordinate.latitude)!, longitude: (self.locationManager?.location?.coordinate.longitude)!)
+            view.itemReady = self.item
+            view.jsonCount = self.jsonCount
+            self.navigationController?.pushViewController(view, animated: true)
+        }
+        let cancel = UIAlertAction(title: "시러요", style: .cancel, handler: nil)
+        
+        alert.addAction(success)
+        alert.addAction(cancel)
+        //alert함수를 화면에 보여준다.
+        self.present(alert, animated: true, completion: nil)
+    }
+    //타이머가 2초 이하일때는 대기하다가 2초 이상이 되면 activity indicator를 멈추고 알림창을 보여준다.
+    @objc func timeLimit(){
+        if time == 0 {
+            print("대기")
+            time += 1
+        } else if time == 1 {
+            if json != nil {
+                jsonCount = json?["results"].count
+                    if jsonCount != nil {
+                        itemAppend()
+                    }
+            }
+            time += 1
+        } else {
+            self.indicator.stopAnimating()
+            showAlert(style: .alert, result: search)
+            timer.invalidate()
+        }
+    }
+    //오토레이아웃 설정해주기
+    func setup(){
+        view.addSubview(indicator)
+        indicator.snp.makeConstraints { (make) in
+            make.center.equalTo(self.view.snp.center)
+            make.width.equalTo(300)
+            make.height.equalTo(300)
+        }
     }
 }
 
