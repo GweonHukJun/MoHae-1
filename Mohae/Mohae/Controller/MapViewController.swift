@@ -12,12 +12,14 @@ import GoogleMaps
 import SwiftyJSON
 import SnapKit
 import GooglePlaces
-
+import Alamofire
+//열거형으로 하단바의 상태를 정해준다.
 private enum State {
     case closed
     case open
 }
 
+//하단바의 상태를 변경해준다.
 extension State {
     var opposite: State {
         switch self {
@@ -29,32 +31,36 @@ extension State {
 
 class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     
+    //activity indicator를 돌게 하기위해서 사용하는 변수
     var isLoading:Bool = false
     let footerViewReuseIdentifier = "RefreshFooterView"
-    
+    //구글 place api를 쓰기위해서 만든 객체
     var placesClient : GMSPlacesClient!
+    //json데이터를 받기 위해서 만든 함수, AgreeViewController에서 갑을 받는다.
     var item : [JSON] = []
-     var itemReady : [JSON] = []
-    
+    var itemReady : [JSON] = []
     var jsonCount : Int?
+    //내 위치의 초기 값을 설정해준 변수이다. AgreeViewController에서 갑을 받는다.
     var defaultLocation = CLLocation(latitude: -33.869405, longitude: 151.199)
-
-     var count = 0
+    //처음 컬렉션뷰에 나오는 데이터를 조절하기 위해서 사용
+    var count = 0
+    //구글 지도가 줌할 수치를 정하는 변수
     var zoomLevel : Float = 17.0
-
+    //구글의 사진을 받아오는 함수에서 나오는 사진을 저장하기 위해서 사용
     var image : UIImage?
+    //구글 place api의 지역 id
     var place_id : String?
-    
+    //제스처를 이용하기 위해서 사용하는 변수 ------------ 이건 나중에 좀더 공부해보자
     private var currentState: State = .closed
     private var runningAnimators = [UIViewPropertyAnimator]()
     private var animationProgress = [CGFloat]()
-      
+    //팬제스처를 정의함
     private lazy var panRecognizer: InstantPanGestureRecognizer = {
           let recognizer = InstantPanGestureRecognizer()
           recognizer.addTarget(self, action: #selector(popupViewPanned(recognizer:)))
           return recognizer
       }()
-    
+    //하단바
     var downBar : UIView = {
         let view = UIView()
         view.backgroundColor = .white
@@ -65,7 +71,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         view.layer.shadowRadius = 10
         return view
     }()
-    
+    //하단바에 나오는 글자
     lazy var closeBar: UILabel = { //닫혀있을 때 나오는 글자
         let label = UILabel()
         label.text = "List Open"
@@ -75,7 +81,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         label.textAlignment = .center
         return label
     }()
-    
+    //하단바에 나오는 글자
     lazy var openBar: UILabel = { //열려있을때 나오는 글자
         let label = UILabel()
         label.text = "List"
@@ -87,7 +93,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         label.transform = CGAffineTransform(scaleX: 0.65, y: 0.65).concatenating(CGAffineTransform(translationX: 0, y: -15))
         return label
     }()
-    
+    //콜렉션뷰
     lazy var collectionList : UICollectionView = {
         let layout : UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         let CV = UICollectionView(frame:  self.view.frame, collectionViewLayout: layout)
@@ -97,7 +103,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         CV.backgroundColor = .white
         return CV
     }()
-    
+    //구글 지도
     lazy var mapView : GMSMapView = {
         var view = GMSMapView()
         let camera = GMSCameraPosition.camera(withLatitude: defaultLocation.coordinate.latitude, longitude: defaultLocation.coordinate.longitude, zoom: zoomLevel) // 구글 지도에 표기될 내 현 위치를 입력시켜둠
@@ -112,38 +118,25 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        //place api를 사용하기 위해서 사용
         placesClient = GMSPlacesClient.shared()
-        
-        collectionList.delegate = self //collectionview를 사용하기 위해서 작성
+        //collectionview의 delegate설정해줌
+        collectionList.delegate = self
         collectionList.dataSource = self
-        
+        //제스처의 delegate를 설정
         panRecognizer.delegate = self
-        
+        //데이터를 load하는 함수
         refreshData()
-      
+        //화면 구성해주는 함수
         setup()
+        //하단바의 제스처를 추가
         downBar.addGestureRecognizer(panRecognizer)
+        //콜렉션뷰의 데이터를 리로드
         collectionList.reloadData()
         //collectionList.gestureRecognizers = [swipeRight]
     }
-   
-
     
-    @objc func refreshData(){
-        for i in count...count+6{
-            if i <= jsonCount! - 1 {
-                item.append(itemReady[i])
-            }
-        }
-        count = count + 6
-        DispatchQueue.main.async {
-            if self.count <= self.jsonCount!-1{
-                self.collectionList.reloadData()
-            }
-            
-        }
-    }
+    
     
     override var prefersStatusBarHidden: Bool {
         return true
@@ -153,7 +146,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         
         
         guard runningAnimators.isEmpty else { return }
-
+        //오픈과 클로스 행동을 할때 애니메이션 설정
         let transitionAnimator = UIViewPropertyAnimator(duration: duration, dampingRatio: 1, animations: {
             switch state {
             case .open:
@@ -231,15 +224,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
           return true
       }
-    
-    func pinMarker(lat : Double, lng : Double, type : String, name : String){
-        mapView.clear()
-        let marker = GMSMarker()
-        marker.position = CLLocationCoordinate2D(latitude: lat, longitude: lng)
-        marker.title = type
-        marker.snippet = name
-        marker.map = self.mapView
-    }
+   
     
     @objc private func popupViewPanned(recognizer: UIPanGestureRecognizer) {
         switch recognizer.state {
@@ -381,15 +366,39 @@ extension MapViewController : UICollectionViewDataSource, UICollectionViewDelega
             }}
         )
     }
-    
+    //셀을 눌렀을 때 지도에 핀이 그려지게하는 함수
+       func pinMarker(lat : Double, lng : Double, type : String, name : String){
+           mapView.clear()
+           let marker = GMSMarker()
+           marker.position = CLLocationCoordinate2D(latitude: lat, longitude: lng)
+           marker.title = type
+           marker.snippet = name
+           marker.map = self.mapView
+       }
+    //count의 수를 늘리면서 json의 수만큼 데이터를 리로드 해준다.
+    @objc func refreshData(){
+        for i in count...count+6{
+            if i <= jsonCount! - 1 {
+                item.append(itemReady[i])
+            }
+        }
+        count = count + 6
+        DispatchQueue.main.async {
+            if self.count <= self.jsonCount!-1{
+                self.collectionList.reloadData()
+            }
+            
+        }
+    }
+    //이 함수는 셀에 제스처를 줘서 클릭했을 때 pinMarker함수가 실행되도록
     @objc func handleCellSelected(sender: UITapGestureRecognizer){
         let cell = sender.view as! MapSearchCell
         let indexPath = collectionList.indexPath(for: cell)
         pinMarker(lat: cell.lat!, lng: cell.lng!, type: cell.type.text!, name: cell.name.text!)
+        currentState.opposite
     }
     
     func setup(){
-        
         view.addSubview(mapView)
         mapView.snp.makeConstraints { (make) in
            make.leading.equalTo(self.view.snp.leading)
@@ -425,4 +434,41 @@ extension MapViewController : UICollectionViewDataSource, UICollectionViewDelega
             make.height.equalTo(self.view.bounds.size.height*0.9)
         }
     }
+    
+    /*. 안타깝게도 우리나라에서는 지원하지 않는 api이다. 지원하는 그날 바로 풀고 추가를 하겠다.
+       func drawPath(orLat : CLLocationDegrees, orLng : CLLocationDegrees, deLat : Double, deLng : Double)
+           {
+               let origin = "\(43.1561681),\(-75.8449946)"
+               let destination = "\(38.8950712),\(-77.0362758)"
+
+
+               let url = "https://maps.googleapis.com/maps/api/directions/json?origin=\(origin)&destination=\(destination)&mode=driving&key=AIzaSyDyStsE4WHE1YLRVx9uYRFLjqZ3tlEmdrE"
+
+
+
+               Alamofire.request(url).responseJSON { response in
+                   print(response.request!)  // original URL request
+                   print(response.response!) // HTTP URL response
+                   print(response.data!)     // server data
+                   print(response.result)   // result of response serialization
+
+                   do {
+                       let json = try JSON(data: response.data!)
+                       let routes = json["routes"].arrayValue
+
+                       for route in routes
+                       {
+                           let routeOverviewPolyline = route["overview_polyline"].dictionary
+                           let points = routeOverviewPolyline?["points"]?.stringValue
+                           let path = GMSPath.init(fromEncodedPath: points!)
+                           let polyline = GMSPolyline.init(path: path)
+                           polyline.map = self.mapView
+                       }
+                   }
+                   catch {
+                       print("ERROR: not working")
+                   }
+               }
+           }
+    */
 }

@@ -16,6 +16,7 @@
 		BC44DB0D2361731300C82D80 /* LoadingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC44DB0C2361731300C82D80 /* LoadingCell.swift */; };
 		BC44DB17236987F100C82D80 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC44DB16236987F100C82D80 /* MapViewController.swift */; };
 		BC44DB18236989EB00C82D80 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BC8D4A7822F9635D007C7F67 /* LaunchScreen.storyboard */; };
+		BC53F3D7236C0242001CAF5D /* JuYoungViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC53F3D6236C0242001CAF5D /* JuYoungViewController.swift */; };
 		BC58B5BA235EBDF6002B5144 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC58B5B9235EBDF6002B5144 /* Extension.swift */; };
 		BC8D4A7022F9635B007C7F67 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8D4A6F22F9635B007C7F67 /* AppDelegate.swift */; };
 		BC8D4A7722F9635D007C7F67 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BC8D4A7622F9635D007C7F67 /* Assets.xcassets */; };
@@ -53,6 +54,7 @@
 		BC1066D0233B794700C241C1 /* AgreeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = AgreeViewController.swift; sourceTree = "<group>"; };
 		BC44DB0C2361731300C82D80 /* LoadingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingCell.swift; sourceTree = "<group>"; };
 		BC44DB16236987F100C82D80 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		BC53F3D6236C0242001CAF5D /* JuYoungViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JuYoungViewController.swift; sourceTree = "<group>"; };
 		BC58B5B9235EBDF6002B5144 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		BC8D4A6C22F9635B007C7F67 /* Mohae.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mohae.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC8D4A6F22F9635B007C7F67 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -134,6 +136,7 @@
 			children = (
 				BC1066D0233B794700C241C1 /* AgreeViewController.swift */,
 				BC44DB16236987F100C82D80 /* MapViewController.swift */,
+				BC53F3D6236C0242001CAF5D /* JuYoungViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -427,6 +430,7 @@
 				BC1066CD233B464400C241C1 /* MapSearch.swift in Sources */,
 				BC8D4A7022F9635B007C7F67 /* AppDelegate.swift in Sources */,
 				BC1066D1233B794700C241C1 /* AgreeViewController.swift in Sources */,
+				BC53F3D7236C0242001CAF5D /* JuYoungViewController.swift in Sources */,
 				BC44DB17236987F100C82D80 /* MapViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

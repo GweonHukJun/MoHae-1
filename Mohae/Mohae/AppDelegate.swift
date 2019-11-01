@@ -32,7 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
          if let window = window {
                    window.backgroundColor = UIColor.white
-                   window.rootViewController = UINavigationController(rootViewController: AgreeViewController())
+                   window.rootViewController = UINavigationController(rootViewController: JuYoungViewController())
                    window.makeKeyAndVisible()
                }
         

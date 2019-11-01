@@ -35,8 +35,8 @@ class AgreeViewController: UIViewController, CLLocationManagerDelegate {
     //구글 place api의 데이터들을 불러오기 위해서 사용되는 변수들
     let url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="
     let radiusType = "&language=ko&rankby=distance&type="
-    let search = "bank"
-    let key = "&key="
+    var search = "bank"
+    var key = "&key="
     //activity indiactor
     lazy var indicator : UIActivityIndicatorView = {
         var indi = UIActivityIndicatorView()
@@ -78,7 +78,6 @@ class AgreeViewController: UIViewController, CLLocationManagerDelegate {
         
         let addQuery = url + "\(lat)" + "," + "\(lng)" + radiusType + search +  key + browKey
     
-        
         let encoded = addQuery.addingPercentEncoding( withAllowedCharacters: NSCharacterSet.urlQueryAllowed)
         var request = URLRequest(url: URL(string: encoded!)!)
         request.httpMethod = "GET"                 //Naver 도서 API는 GET
@@ -116,17 +115,34 @@ class AgreeViewController: UIViewController, CLLocationManagerDelegate {
             callURL(url: self.url, search: self.search)
         }
     }
+    //인터넷 오류 때문에 값이 안불러올때
+    func errorAlert(style : UIAlertController.Style){
+           let alert = UIAlertController(title: "연결 에러", message:"인터넷 연결을 확인해주세요", preferredStyle: .alert)
+           let success = UIAlertAction(title: "확인", style: .default) { (action) in
+               //success를 눌렀을 때 MapViewController로 이동하면서 데이터를 전해준다.
+                self.navigationController?.popViewController(animated: true)
+           }
+           alert.addAction(success)
+           self.present(alert, animated: true, completion: nil)
+       }
     //alert창을 나오게 하는 함수
     func showAlert(style : UIAlertController.Style, result : String){
         let alert = UIAlertController(title: "모해의 추천!!!", message: result + "는 어때?", preferredStyle: .alert)
         let success = UIAlertAction(title: "너무 좋죠", style: .default) { (action) in
+            //success를 눌렀을 때 MapViewController로 이동하면서 데이터를 전해준다.
             let view = MapViewController()
-            view.defaultLocation = CLLocation(latitude: (self.locationManager?.location?.coordinate.latitude)!, longitude: (self.locationManager?.location?.coordinate.longitude)!)
-            view.itemReady = self.item
-            view.jsonCount = self.jsonCount
-            self.navigationController?.pushViewController(view, animated: true)
+            if(self.locationManager != nil && (self.json != nil)  && self.jsonCount != nil ){
+                view.defaultLocation = CLLocation(latitude: (self.locationManager?.location?.coordinate.latitude)!, longitude: (self.locationManager?.location?.coordinate.longitude)!)
+                view.itemReady = self.item
+                view.jsonCount = self.jsonCount
+                self.navigationController?.pushViewController(view, animated: true)
+            } else {
+                self.errorAlert(style: .alert)
+            }
         }
-        let cancel = UIAlertAction(title: "시러요", style: .cancel, handler: nil)
+        let cancel = UIAlertAction(title: "시러요", style: .cancel){ (action) in
+            self.navigationController?.popViewController(animated: true)
+        }
         
         alert.addAction(success)
         alert.addAction(cancel)
@@ -136,9 +152,11 @@ class AgreeViewController: UIViewController, CLLocationManagerDelegate {
     //타이머가 2초 이하일때는 대기하다가 2초 이상이 되면 activity indicator를 멈추고 알림창을 보여준다.
     @objc func timeLimit(){
         if time == 0 {
+            self.indicator.startAnimating()
             print("대기")
             time += 1
         } else if time == 1 {
+            //json데이터의 객수를 구하고 데이터를 저장한다
             if json != nil {
                 jsonCount = json?["results"].count
                     if jsonCount != nil {
@@ -147,9 +165,11 @@ class AgreeViewController: UIViewController, CLLocationManagerDelegate {
             }
             time += 1
         } else {
+            //indicator를 멈추고 알러트함수를 호출하고 타이머를 멈춰준다.
             self.indicator.stopAnimating()
             showAlert(style: .alert, result: search)
             timer.invalidate()
+            time = 0
         }
     }
     //오토레이아웃 설정해주기
