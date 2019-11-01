@@ -180,11 +180,8 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
                 case .current:
                     ()
             }
-        
-            
             // remove all running animators
             self.runningAnimators.removeAll()
-            
         }
         
         // an animator for the title that is transitioning into view
@@ -395,7 +392,14 @@ extension MapViewController : UICollectionViewDataSource, UICollectionViewDelega
         let cell = sender.view as! MapSearchCell
         let indexPath = collectionList.indexPath(for: cell)
         pinMarker(lat: cell.lat!, lng: cell.lng!, type: cell.type.text!, name: cell.name.text!)
-        currentState.opposite
+        self.downBar.layer.cornerRadius = 0
+        self.downBar.center = CGPoint(x: self.view.frame.midX, y:self.view.frame.height-self.downBar.bounds.size.height/2)
+        self.collectionList.center = CGPoint(x:self.view.frame.midX, y: self.view.bounds.size.height*1.45 )
+        self.closeBar.transform = .identity
+        self.openBar.transform = CGAffineTransform(scaleX: 0.65, y: 0.65).concatenating(CGAffineTransform(translationX: 0, y: -15))
+        currentState = currentState.opposite
+        closeBar.alpha = 1
+        openBar.alpha = 0
     }
     
     func setup(){
