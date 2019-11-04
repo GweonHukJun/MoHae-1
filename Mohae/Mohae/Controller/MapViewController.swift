@@ -45,7 +45,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     //처음 컬렉션뷰에 나오는 데이터를 조절하기 위해서 사용
     var count = 0
     //구글 지도가 줌할 수치를 정하는 변수
-    var zoomLevel : Float = 17.0
+    var zoomLevel : Float = 15.0
     //구글의 사진을 받아오는 함수에서 나오는 사진을 저장하기 위해서 사용
     var image : UIImage?
     //구글 place api의 지역 id
@@ -134,9 +134,18 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         //콜렉션뷰의 데이터를 리로드
         collectionList.reloadData()
         //collectionList.gestureRecognizers = [swipeRight]
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem:.add,target: self, action:#selector(moveFirst))
     }
     
-    
+    @objc func moveFirst(){
+           //뷰의 네비게이션 이동을 카운터로 세서 이동이 2개 초과일때 첫번째 뷰로 이동하게 만들어주는 소스
+      if let viewControllers = self.navigationController?.viewControllers {
+            if viewControllers.count > 2 {
+                self.navigationController?.popToViewController(viewControllers[viewControllers.count - 3], animated: true)
+            }
+        }
+          
+       }
     
     override var prefersStatusBarHidden: Bool {
         return true

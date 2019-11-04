@@ -37,6 +37,11 @@ class AgreeViewController: UIViewController, CLLocationManagerDelegate {
     let radiusType = "&language=ko&rankby=distance&type="
     var search = "bank"
     var key = "&key="
+    
+    let url2 = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="
+    let radiusType2 = "&radius=1500&keyword="
+    let search2 = "bank"
+    let key2 = "&key="
     //activity indiactor
     lazy var indicator : UIActivityIndicatorView = {
         var indi = UIActivityIndicatorView()
@@ -76,9 +81,10 @@ class AgreeViewController: UIViewController, CLLocationManagerDelegate {
         let lat : Double = (locationManager?.location?.coordinate.latitude)!
         let lng : Double = (locationManager?.location?.coordinate.longitude)!
         
+        let addQuery2 = url2 + "\(lat)" + "," + "\(lng)" + radiusType2 + search2 + key2 + browKey
         let addQuery = url + "\(lat)" + "," + "\(lng)" + radiusType + search +  key + browKey
-    
-        let encoded = addQuery.addingPercentEncoding( withAllowedCharacters: NSCharacterSet.urlQueryAllowed)
+        
+        let encoded = addQuery2.addingPercentEncoding( withAllowedCharacters: NSCharacterSet.urlQueryAllowed)
         var request = URLRequest(url: URL(string: encoded!)!)
         request.httpMethod = "GET"                 //Naver 도서 API는 GET
         
