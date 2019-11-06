@@ -31,6 +31,7 @@ extension State {
 
 class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     
+    var listHeight : CGFloat = 200
     //activity indicator를 돌게 하기위해서 사용하는 변수
     var isLoading:Bool = false
     let footerViewReuseIdentifier = "RefreshFooterView"
@@ -55,6 +56,10 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     private var runningAnimators = [UIViewPropertyAnimator]()
     private var animationProgress = [CGFloat]()
     //팬제스처를 정의함
+    private lazy var panReco: UIPanGestureRecognizer = {
+        let recognizer = UIPanGestureRecognizer()
+        return recognizer
+    }()
     private lazy var panRecognizer: InstantPanGestureRecognizer = {
           let recognizer = InstantPanGestureRecognizer()
           recognizer.addTarget(self, action: #selector(popupViewPanned(recognizer:)))
@@ -77,7 +82,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         label.text = "List Open"
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
-        label.textColor = #colorLiteral(red: 0, green: 0.5898008943, blue: 1, alpha: 1)
+        label.textColor = #colorLiteral(red: 0.9098039269, green: 0.4784313738, blue: 0.6431372762, alpha: 1)
         label.textAlignment = .center
         return label
     }()
@@ -86,8 +91,8 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         let label = UILabel()
         label.text = "List"
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 23, weight: UIFont.Weight.heavy)
-        label.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        label.font = UIFont.systemFont(ofSize: 23, weight: UIFont.Weight.medium)
+        label.textColor = #colorLiteral(red: 0.8549019694, green: 0.250980407, blue: 0.4784313738, alpha: 1)
         label.alpha = 0
         label.textAlignment = .center
         label.transform = CGAffineTransform(scaleX: 0.65, y: 0.65).concatenating(CGAffineTransform(translationX: 0, y: -15))
@@ -118,6 +123,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        listHeight = self.view.frame.size.height - (navigationController?.navigationBar.frame.height)! - 60
         //place api를 사용하기 위해서 사용
         placesClient = GMSPlacesClient.shared()
         //collectionview의 delegate설정해줌
@@ -132,16 +138,17 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         //하단바의 제스처를 추가
         downBar.addGestureRecognizer(panRecognizer)
         //콜렉션뷰의 데이터를 리로드
-        collectionList.reloadData()
+       
         //collectionList.gestureRecognizers = [swipeRight]
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem:.add,target: self, action:#selector(moveFirst))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "추천 다시", style: .plain, target: self, action:#selector(moveFirst))
+        self.navigationItem.setHidesBackButton (true, animated : true);
     }
     
     @objc func moveFirst(){
            //뷰의 네비게이션 이동을 카운터로 세서 이동이 2개 초과일때 첫번째 뷰로 이동하게 만들어주는 소스
       if let viewControllers = self.navigationController?.viewControllers {
-            if viewControllers.count > 2 {
-                self.navigationController?.popToViewController(viewControllers[viewControllers.count - 3], animated: true)
+            if viewControllers.count > 9{
+                self.navigationController?.popToViewController(viewControllers[viewControllers.count - 10], animated: true)
             }
         }
           
@@ -158,22 +165,20 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         //오픈과 클로스 행동을 할때 애니메이션 설정
         let transitionAnimator = UIViewPropertyAnimator(duration: duration, dampingRatio: 1, animations: {
             switch state {
-            case .open:
+            case .open : 
                 self.downBar.layer.cornerRadius = 20
-                self.downBar.center = CGPoint(x: self.view.frame.midX, y: (self.navigationController?.navigationBar.bounds.size.height)!*2+self.downBar.bounds.size.height/2)
-                self.collectionList.center = CGPoint(x:self.view.frame.midX, y: (self.navigationController?.navigationBar.bounds.size.height)!*2+self.downBar.bounds.size.height+self.collectionList.bounds.size.height/2)
-               
+                self.downBar.center.y = (self.navigationController?.navigationBar.bounds.size.height)! + 30
+                self.collectionList.center.y = (self.navigationController?.navigationBar.bounds.size.height)! + self.listHeight/2 + 60
                 self.closeBar.transform = CGAffineTransform(scaleX: 1.6, y: 1.6).concatenating(CGAffineTransform(translationX: 0, y: 15))
                 self.openBar.transform = .identity
-            case .closed:
+            case .closed :
                 self.downBar.layer.cornerRadius = 0
-                self.downBar.center = CGPoint(x: self.view.frame.midX, y:self.view.frame.height-self.downBar.bounds.size.height/2)
-                self.collectionList.center = CGPoint(x:self.view.frame.midX, y: self.view.bounds.size.height*1.45 )
+                self.downBar.center.y  = self.view.frame.height-self.downBar.bounds.size.height/2
+                self.collectionList.center.y = self.view.frame.height + self.collectionList.frame.height/2
                 self.closeBar.transform = .identity
                 self.openBar.transform = CGAffineTransform(scaleX: 0.65, y: 0.65).concatenating(CGAffineTransform(translationX: 0, y: -15))
+
             }
-            
-            
             self.view.layoutIfNeeded()
         })
         
@@ -202,7 +207,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
                 self.closeBar.alpha = 1
             }
         })
-        inTitleAnimator.scrubsLinearly = false
+        inTitleAnimator.scrubsLinearly = true
         
         // an animator for the title that is transitioning out of view
         let outTitleAnimator = UIViewPropertyAnimator(duration: duration, curve: .easeOut, animations: {
@@ -213,7 +218,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
                 self.openBar.alpha = 0
             }
         })
-        outTitleAnimator.scrubsLinearly = false
+        outTitleAnimator.scrubsLinearly = true
         
         // start all animators
         transitionAnimator.startAnimation()
@@ -310,22 +315,15 @@ extension MapViewController : UICollectionViewDataSource, UICollectionViewDelega
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return item.count + 1
+        return 6
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        if indexPath.row == self.item.count {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "loadingCellIdentifier", for: indexPath) as! LoadingCell
-             refreshData()
-             return cell
-           }
-        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MapSearchCell", for: indexPath) as! MapSearchCell
-        cell.backgroundColor = .yellow
+        cell.backgroundColor = .white
         cell.name.text = item[indexPath.row]["name"].stringValue
-        cell.type.text = item[indexPath.row]["types"][0].stringValue
-        cell.type2.text = item[indexPath.row]["types"][1].stringValue
+        cell.address.text = item[indexPath.row]["vicinity"].stringValue
         cell.photo.loadImageUsingCacheWithUrlString(urlString: (item[indexPath.row]["place_id"].stringValue))
         
         
@@ -400,7 +398,7 @@ extension MapViewController : UICollectionViewDataSource, UICollectionViewDelega
     @objc func handleCellSelected(sender: UITapGestureRecognizer){
         let cell = sender.view as! MapSearchCell
         let indexPath = collectionList.indexPath(for: cell)
-        pinMarker(lat: cell.lat!, lng: cell.lng!, type: cell.type.text!, name: cell.name.text!)
+        pinMarker(lat: cell.lat!, lng: cell.lng!, type: cell.address.text!, name: cell.name.text!)
         self.downBar.layer.cornerRadius = 0
         self.downBar.center = CGPoint(x: self.view.frame.midX, y:self.view.frame.height-self.downBar.bounds.size.height/2)
         self.collectionList.center = CGPoint(x:self.view.frame.midX, y: self.view.bounds.size.height*1.45 )
@@ -444,7 +442,7 @@ extension MapViewController : UICollectionViewDataSource, UICollectionViewDelega
             make.leading.equalTo(self.downBar.snp.leading)
             make.trailing.equalTo(self.downBar.snp.trailing)
             make.top.equalTo(self.downBar.snp.bottom)
-            make.height.equalTo(self.view.bounds.size.height*0.9)
+            make.height.equalTo(listHeight)
         }
     }
     

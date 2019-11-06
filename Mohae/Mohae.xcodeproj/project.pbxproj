@@ -16,7 +16,34 @@
 		BC44DB0D2361731300C82D80 /* LoadingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC44DB0C2361731300C82D80 /* LoadingCell.swift */; };
 		BC44DB17236987F100C82D80 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC44DB16236987F100C82D80 /* MapViewController.swift */; };
 		BC44DB18236989EB00C82D80 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BC8D4A7822F9635D007C7F67 /* LaunchScreen.storyboard */; };
-		BC53F3D7236C0242001CAF5D /* JuYoungViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC53F3D6236C0242001CAF5D /* JuYoungViewController.swift */; };
+		BC53F44D23713DB8001CAF5D /* NumberOfPeople.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC53F44223713DB5001CAF5D /* NumberOfPeople.swift */; };
+		BC53F44E23713DB8001CAF5D /* SubSurvey.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC53F44323713DB6001CAF5D /* SubSurvey.swift */; };
+		BC53F44F23713DB8001CAF5D /* Feeling.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC53F44423713DB6001CAF5D /* Feeling.swift */; };
+		BC53F45023713DB8001CAF5D /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC53F44523713DB6001CAF5D /* Weather.swift */; };
+		BC53F45123713DB8001CAF5D /* Money.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC53F44623713DB7001CAF5D /* Money.swift */; };
+		BC53F45223713DB8001CAF5D /* DataForAnalysis.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC53F44723713DB7001CAF5D /* DataForAnalysis.swift */; };
+		BC53F45323713DB8001CAF5D /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC53F44823713DB7001CAF5D /* Category.swift */; };
+		BC53F45423713DB8001CAF5D /* Couple.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC53F44923713DB8001CAF5D /* Couple.swift */; };
+		BC53F45523713DB8001CAF5D /* Personality.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC53F44A23713DB8001CAF5D /* Personality.swift */; };
+		BC53F45623713DB8001CAF5D /* Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC53F44B23713DB8001CAF5D /* Time.swift */; };
+		BC53F45723713DB8001CAF5D /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC53F44C23713DB8001CAF5D /* User.swift */; };
+		BC53F46323713DCA001CAF5D /* AnalysisController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC53F45823713DC5001CAF5D /* AnalysisController.swift */; };
+		BC53F46423713DCA001CAF5D /* MoneyQuestionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC53F45923713DC6001CAF5D /* MoneyQuestionController.swift */; };
+		BC53F46523713DCA001CAF5D /* WeatherQuestionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC53F45A23713DC6001CAF5D /* WeatherQuestionController.swift */; };
+		BC53F46623713DCA001CAF5D /* DataAnalysisController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC53F45B23713DC7001CAF5D /* DataAnalysisController.swift */; };
+		BC53F46823713DCA001CAF5D /* CoupleQuestionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC53F45D23713DC7001CAF5D /* CoupleQuestionController.swift */; };
+		BC53F46923713DCA001CAF5D /* PeopleQuestionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC53F45E23713DC8001CAF5D /* PeopleQuestionController.swift */; };
+		BC53F46A23713DCA001CAF5D /* RecommendButtonController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC53F45F23713DC8001CAF5D /* RecommendButtonController.swift */; };
+		BC53F46B23713DCA001CAF5D /* TestSurveyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC53F46023713DC9001CAF5D /* TestSurveyController.swift */; };
+		BC53F46C23713DCA001CAF5D /* RecommendingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC53F46123713DC9001CAF5D /* RecommendingController.swift */; };
+		BC53F46D23713DCA001CAF5D /* FeelingQuestionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC53F46223713DCA001CAF5D /* FeelingQuestionController.swift */; };
+		BC53F47423713DD3001CAF5D /* CoupleQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC53F46E23713DD0001CAF5D /* CoupleQuestionView.swift */; };
+		BC53F47523713DD3001CAF5D /* SubSurveyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC53F46F23713DD1001CAF5D /* SubSurveyCell.swift */; };
+		BC53F47623713DD3001CAF5D /* MoneyQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC53F47023713DD1001CAF5D /* MoneyQuestionView.swift */; };
+		BC53F47723713DD3001CAF5D /* FeelingQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC53F47123713DD2001CAF5D /* FeelingQuestionView.swift */; };
+		BC53F47823713DD3001CAF5D /* WeatherQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC53F47223713DD2001CAF5D /* WeatherQuestionView.swift */; };
+		BC53F47923713DD3001CAF5D /* PeopleQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC53F47323713DD3001CAF5D /* PeopleQuestionView.swift */; };
+		BC53F48123714329001CAF5D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BC53F48023714328001CAF5D /* GoogleService-Info.plist */; };
 		BC58B5BA235EBDF6002B5144 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC58B5B9235EBDF6002B5144 /* Extension.swift */; };
 		BC8D4A7022F9635B007C7F67 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8D4A6F22F9635B007C7F67 /* AppDelegate.swift */; };
 		BC8D4A7722F9635D007C7F67 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BC8D4A7622F9635D007C7F67 /* Assets.xcassets */; };
@@ -54,7 +81,34 @@
 		BC1066D0233B794700C241C1 /* AgreeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = AgreeViewController.swift; sourceTree = "<group>"; };
 		BC44DB0C2361731300C82D80 /* LoadingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingCell.swift; sourceTree = "<group>"; };
 		BC44DB16236987F100C82D80 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
-		BC53F3D6236C0242001CAF5D /* JuYoungViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JuYoungViewController.swift; sourceTree = "<group>"; };
+		BC53F44223713DB5001CAF5D /* NumberOfPeople.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumberOfPeople.swift; sourceTree = "<group>"; };
+		BC53F44323713DB6001CAF5D /* SubSurvey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubSurvey.swift; sourceTree = "<group>"; };
+		BC53F44423713DB6001CAF5D /* Feeling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Feeling.swift; sourceTree = "<group>"; };
+		BC53F44523713DB6001CAF5D /* Weather.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
+		BC53F44623713DB7001CAF5D /* Money.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Money.swift; sourceTree = "<group>"; };
+		BC53F44723713DB7001CAF5D /* DataForAnalysis.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataForAnalysis.swift; sourceTree = "<group>"; };
+		BC53F44823713DB7001CAF5D /* Category.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+		BC53F44923713DB8001CAF5D /* Couple.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Couple.swift; sourceTree = "<group>"; };
+		BC53F44A23713DB8001CAF5D /* Personality.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Personality.swift; sourceTree = "<group>"; };
+		BC53F44B23713DB8001CAF5D /* Time.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Time.swift; sourceTree = "<group>"; };
+		BC53F44C23713DB8001CAF5D /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		BC53F45823713DC5001CAF5D /* AnalysisController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalysisController.swift; sourceTree = "<group>"; };
+		BC53F45923713DC6001CAF5D /* MoneyQuestionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoneyQuestionController.swift; sourceTree = "<group>"; };
+		BC53F45A23713DC6001CAF5D /* WeatherQuestionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherQuestionController.swift; sourceTree = "<group>"; };
+		BC53F45B23713DC7001CAF5D /* DataAnalysisController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataAnalysisController.swift; sourceTree = "<group>"; };
+		BC53F45D23713DC7001CAF5D /* CoupleQuestionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoupleQuestionController.swift; sourceTree = "<group>"; };
+		BC53F45E23713DC8001CAF5D /* PeopleQuestionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeopleQuestionController.swift; sourceTree = "<group>"; };
+		BC53F45F23713DC8001CAF5D /* RecommendButtonController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecommendButtonController.swift; sourceTree = "<group>"; };
+		BC53F46023713DC9001CAF5D /* TestSurveyController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestSurveyController.swift; sourceTree = "<group>"; };
+		BC53F46123713DC9001CAF5D /* RecommendingController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecommendingController.swift; sourceTree = "<group>"; };
+		BC53F46223713DCA001CAF5D /* FeelingQuestionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeelingQuestionController.swift; sourceTree = "<group>"; };
+		BC53F46E23713DD0001CAF5D /* CoupleQuestionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoupleQuestionView.swift; sourceTree = "<group>"; };
+		BC53F46F23713DD1001CAF5D /* SubSurveyCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubSurveyCell.swift; sourceTree = "<group>"; };
+		BC53F47023713DD1001CAF5D /* MoneyQuestionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoneyQuestionView.swift; sourceTree = "<group>"; };
+		BC53F47123713DD2001CAF5D /* FeelingQuestionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeelingQuestionView.swift; sourceTree = "<group>"; };
+		BC53F47223713DD2001CAF5D /* WeatherQuestionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherQuestionView.swift; sourceTree = "<group>"; };
+		BC53F47323713DD3001CAF5D /* PeopleQuestionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeopleQuestionView.swift; sourceTree = "<group>"; };
+		BC53F48023714328001CAF5D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		BC58B5B9235EBDF6002B5144 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		BC8D4A6C22F9635B007C7F67 /* Mohae.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mohae.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC8D4A6F22F9635B007C7F67 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -125,6 +179,12 @@
 		BC1066C7233B45FA00C241C1 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				BC53F46F23713DD1001CAF5D /* SubSurveyCell.swift */,
+				BC53F46E23713DD0001CAF5D /* CoupleQuestionView.swift */,
+				BC53F47323713DD3001CAF5D /* PeopleQuestionView.swift */,
+				BC53F47023713DD1001CAF5D /* MoneyQuestionView.swift */,
+				BC53F47223713DD2001CAF5D /* WeatherQuestionView.swift */,
+				BC53F47123713DD2001CAF5D /* FeelingQuestionView.swift */,
 				BC1066CE233B4CEF00C241C1 /* MapSearchCell.swift */,
 				BC44DB0C2361731300C82D80 /* LoadingCell.swift */,
 			);
@@ -136,7 +196,16 @@
 			children = (
 				BC1066D0233B794700C241C1 /* AgreeViewController.swift */,
 				BC44DB16236987F100C82D80 /* MapViewController.swift */,
-				BC53F3D6236C0242001CAF5D /* JuYoungViewController.swift */,
+				BC53F45823713DC5001CAF5D /* AnalysisController.swift */,
+				BC53F45D23713DC7001CAF5D /* CoupleQuestionController.swift */,
+				BC53F45B23713DC7001CAF5D /* DataAnalysisController.swift */,
+				BC53F46223713DCA001CAF5D /* FeelingQuestionController.swift */,
+				BC53F45923713DC6001CAF5D /* MoneyQuestionController.swift */,
+				BC53F45E23713DC8001CAF5D /* PeopleQuestionController.swift */,
+				BC53F45F23713DC8001CAF5D /* RecommendButtonController.swift */,
+				BC53F46123713DC9001CAF5D /* RecommendingController.swift */,
+				BC53F46023713DC9001CAF5D /* TestSurveyController.swift */,
+				BC53F45A23713DC6001CAF5D /* WeatherQuestionController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -145,6 +214,17 @@
 			isa = PBXGroup;
 			children = (
 				BC1066CC233B464400C241C1 /* MapSearch.swift */,
+				BC53F44C23713DB8001CAF5D /* User.swift */,
+				BC53F44323713DB6001CAF5D /* SubSurvey.swift */,
+				BC53F44723713DB7001CAF5D /* DataForAnalysis.swift */,
+				BC53F44823713DB7001CAF5D /* Category.swift */,
+				BC53F44923713DB8001CAF5D /* Couple.swift */,
+				BC53F44423713DB6001CAF5D /* Feeling.swift */,
+				BC53F44623713DB7001CAF5D /* Money.swift */,
+				BC53F44223713DB5001CAF5D /* NumberOfPeople.swift */,
+				BC53F44A23713DB8001CAF5D /* Personality.swift */,
+				BC53F44B23713DB8001CAF5D /* Time.swift */,
+				BC53F44523713DB6001CAF5D /* Weather.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -181,6 +261,7 @@
 				BC58B5B9235EBDF6002B5144 /* Extension.swift */,
 				BC8D4A7622F9635D007C7F67 /* Assets.xcassets */,
 				BC8D4A7822F9635D007C7F67 /* LaunchScreen.storyboard */,
+				BC53F48023714328001CAF5D /* GoogleService-Info.plist */,
 				BC8D4A7B22F9635D007C7F67 /* Info.plist */,
 			);
 			path = Mohae;
@@ -314,6 +395,7 @@
 			files = (
 				BC8D4A7722F9635D007C7F67 /* Assets.xcassets in Resources */,
 				BC44DB18236989EB00C82D80 /* LaunchScreen.storyboard in Resources */,
+				BC53F48123714329001CAF5D /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -424,14 +506,40 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC53F47623713DD3001CAF5D /* MoneyQuestionView.swift in Sources */,
+				BC53F45523713DB8001CAF5D /* Personality.swift in Sources */,
 				BC44DB0D2361731300C82D80 /* LoadingCell.swift in Sources */,
+				BC53F44F23713DB8001CAF5D /* Feeling.swift in Sources */,
+				BC53F44D23713DB8001CAF5D /* NumberOfPeople.swift in Sources */,
+				BC53F46823713DCA001CAF5D /* CoupleQuestionController.swift in Sources */,
+				BC53F47523713DD3001CAF5D /* SubSurveyCell.swift in Sources */,
+				BC53F45123713DB8001CAF5D /* Money.swift in Sources */,
+				BC53F47723713DD3001CAF5D /* FeelingQuestionView.swift in Sources */,
 				BC58B5BA235EBDF6002B5144 /* Extension.swift in Sources */,
+				BC53F46923713DCA001CAF5D /* PeopleQuestionController.swift in Sources */,
+				BC53F45623713DB8001CAF5D /* Time.swift in Sources */,
+				BC53F46D23713DCA001CAF5D /* FeelingQuestionController.swift in Sources */,
+				BC53F45023713DB8001CAF5D /* Weather.swift in Sources */,
 				BC1066CF233B4CEF00C241C1 /* MapSearchCell.swift in Sources */,
 				BC1066CD233B464400C241C1 /* MapSearch.swift in Sources */,
 				BC8D4A7022F9635B007C7F67 /* AppDelegate.swift in Sources */,
+				BC53F44E23713DB8001CAF5D /* SubSurvey.swift in Sources */,
+				BC53F46623713DCA001CAF5D /* DataAnalysisController.swift in Sources */,
+				BC53F47423713DD3001CAF5D /* CoupleQuestionView.swift in Sources */,
+				BC53F46A23713DCA001CAF5D /* RecommendButtonController.swift in Sources */,
+				BC53F47823713DD3001CAF5D /* WeatherQuestionView.swift in Sources */,
+				BC53F46523713DCA001CAF5D /* WeatherQuestionController.swift in Sources */,
 				BC1066D1233B794700C241C1 /* AgreeViewController.swift in Sources */,
-				BC53F3D7236C0242001CAF5D /* JuYoungViewController.swift in Sources */,
+				BC53F46423713DCA001CAF5D /* MoneyQuestionController.swift in Sources */,
+				BC53F45323713DB8001CAF5D /* Category.swift in Sources */,
+				BC53F47923713DD3001CAF5D /* PeopleQuestionView.swift in Sources */,
+				BC53F46C23713DCA001CAF5D /* RecommendingController.swift in Sources */,
+				BC53F45223713DB8001CAF5D /* DataForAnalysis.swift in Sources */,
+				BC53F46323713DCA001CAF5D /* AnalysisController.swift in Sources */,
+				BC53F46B23713DCA001CAF5D /* TestSurveyController.swift in Sources */,
 				BC44DB17236987F100C82D80 /* MapViewController.swift in Sources */,
+				BC53F45423713DB8001CAF5D /* Couple.swift in Sources */,
+				BC53F45723713DB8001CAF5D /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

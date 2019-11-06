@@ -50,31 +50,19 @@ class MapSearchCell: UICollectionViewCell {
        return name
     }()
     
-    var icon: UIImageView = {
-        let icon = UIImageView()
-        icon.translatesAutoresizingMaskIntoConstraints = false
-        return icon
-    }()
-    
-    var type: UILabel = {
+    var address: UILabel = {
         let type = UILabel()
         type.translatesAutoresizingMaskIntoConstraints = false
         return type
     }()
-    
-    var type2: UILabel = {
-        let type = UILabel()
-        type.translatesAutoresizingMaskIntoConstraints = false
-        return type
-    }()
+
     
     func setupView(){
         addSubview(squad)
         squad.addSubview(photo)
         squad.addSubview(name)
         //addSubview(icon)
-        squad.addSubview(type)
-        squad.addSubview(type2)
+        squad.addSubview(address)
         
         squad.snp.makeConstraints { (make) in
             make.height.equalTo(self.snp.height).offset(-10)
@@ -99,19 +87,13 @@ class MapSearchCell: UICollectionViewCell {
             make.height.equalTo(20)
         }
         
-        type.snp.makeConstraints { (make) in
+        address.snp.makeConstraints { (make) in
             make.top.equalTo(name.snp.bottom)
             make.left.equalTo(photo.snp.right).offset(3)
-            make.width.equalTo(100)
+            make.width.equalTo(250)
             make.height.equalTo(20)
         }
-        
-        type2.snp.makeConstraints { (make) in
-            make.top.equalTo(type.snp.top)
-            make.left.equalTo(type.snp.right)
-            make.width.equalTo(100)
-            make.height.equalTo(20)
-        }
+    
         /*
         name.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         name.widthAnchor.constraint(equalToConstant: 400).isActive = true
@@ -135,6 +117,6 @@ class MapSearchCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         name.text = nil
-        type.text = nil
+        address.text = nil
     }
 }

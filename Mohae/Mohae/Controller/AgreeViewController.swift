@@ -39,17 +39,28 @@ class AgreeViewController: UIViewController, CLLocationManagerDelegate {
     var key = "&key="
     
     let url2 = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="
-    let radiusType2 = "&radius=1500&keyword="
+    let radiusType2 = "&language=ko&rankby=distance&keyword="
     let search2 = "bank"
     let key2 = "&key="
     //activity indiactor
     lazy var indicator : UIActivityIndicatorView = {
         var indi = UIActivityIndicatorView()
+        let transfrom = CGAffineTransform.init(scaleX: 2.5, y: 2.5)
+        indi.transform = transfrom
         indi.startAnimating()
+        indi.style = UIActivityIndicatorView.Style.whiteLarge
+        indi.color = #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1)
         indi.translatesAutoresizingMaskIntoConstraints = false
         return indi
     }()
 
+    let logoImage : UIImageView = {
+           let logo = UIImageView()
+           logo.translatesAutoresizingMaskIntoConstraints = false
+           logo.image = #imageLiteral(resourceName: "logo")
+           return logo
+    }()
+    
     override func loadView() {
         super.loadView()
         //현재 위치
@@ -62,8 +73,7 @@ class AgreeViewController: UIViewController, CLLocationManagerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        view.backgroundColor = .systemPink
+        view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         //title을 정해준다
         title = "당신의 선택"
         //구글 place api를 사용하기 위해서 추가
@@ -101,6 +111,7 @@ class AgreeViewController: UIViewController, CLLocationManagerDelegate {
                 print(error.localizedDescription)
             }
         }
+        print(self.json)
         task.resume()
     }
     
@@ -180,6 +191,14 @@ class AgreeViewController: UIViewController, CLLocationManagerDelegate {
     }
     //오토레이아웃 설정해주기
     func setup(){
+        view.addSubview(logoImage)
+        logoImage.snp.makeConstraints { (make) in
+            make.top.equalTo(view.snp.top).offset(70)
+            make.centerX.equalTo(view.snp.centerX)
+            make.width.equalTo(300)
+            make.height.equalTo(150)
+        }
+        
         view.addSubview(indicator)
         indicator.snp.makeConstraints { (make) in
             make.center.equalTo(self.view.snp.center)

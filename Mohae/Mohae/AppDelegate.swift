@@ -9,33 +9,24 @@
 import UIKit
 import GoogleMaps
 import GooglePlaces
+import Firebase
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    @available(iOS 13.0, *)
-       func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-          
-           guard let scene = (scene as? UIWindowScene) else { return }
-           let window = UIWindow()
-           self.window = window
-           window.rootViewController = AgreeViewController()
-           window.windowScene = scene
-           window.makeKeyAndVisible()
-    }
-    
+
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         GMSServices.provideAPIKey("AIzaSyB2PbwMxywvpSP8sbsIU8TA2g3sca9L7WQ")
         GMSPlacesClient.provideAPIKey("AIzaSyB2PbwMxywvpSP8sbsIU8TA2g3sca9L7WQ")
        
-        window = UIWindow(frame: UIScreen.main.bounds)
-         if let window = window {
-                   window.backgroundColor = UIColor.white
-                   window.rootViewController = UINavigationController(rootViewController: JuYoungViewController())
-                   window.makeKeyAndVisible()
-               }
-        
+        FirebaseApp.configure()
+               
+               window = UIWindow(frame: UIScreen.main.bounds)
+               window?.makeKeyAndVisible()
+               
+               window?.rootViewController = UINavigationController(rootViewController: RecommendButtonController())
+               
         return true
     }
 
